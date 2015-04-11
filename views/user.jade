@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
+    title= pageTitle    
+    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
+    style.
+      #scroller{
+        height: #{pageCount*100}%
+      }
+      .slide{
+        height: #{Math.round(100000/pageCount)/1000}%
+      }
+  body
+    #wrapper
+      h1='welcome back, '+user
+      p=errormessage
+      p
+        span='total '+projects.length+' projects  '
+        a(href="/edit") create new project
+
+      if(projects && projects.length)
+        ul.projects
+          each project in projects
+            li
+              p
+                a(href="/edit/"+project._id)=project

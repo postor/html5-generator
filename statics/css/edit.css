@@ -1,0 +1,22 @@
+.left{
+	margin-right: 500px;
+}
+
+.right{
+	position: absolute;
+	right: 0;
+	width: 500px;
+	height: 1000px;
+	top: 0;
+}
+
+textarea{
+	display: block;
+	width: 80%;
+	height: 100px;
+}
+
+iframe{
+	width: 480px;
+	height: 960px;
+}

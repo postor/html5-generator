@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
+    link(rel="stylesheet",type="text/css",href="/statics/css/edit.css" )
+    title= pageTitle
+  body
+    #wrapper
+      .left
+        p edit your project
+          a(href="/user/"+project.email) my projects
+        form(action="/edit/"+project._id,method="post")
+          input(name="id",type="hidden",value=project._id)
+          p
+            label(for="title") title
+            input(name="title",id="title",value=project.title)
+          p
+            label(for="desc") desc
+            input(name="desc",id="desc",value=project.desc)
+          p
+            label(for="keywords") keywords
+            input(name="keywords",id="keywords",value=project.keywords)
+          p
+            label(for="pageCount") page count
+            input(name="pageCount",id="pageCount",value=project.pageCount)
+          p
+            label(for="css") css
+            textarea(name="css",id="css")=project.css
+          ul
+            - var i = 0;
+            while i++ < project.pageCount
+              li
+                label(for="page"+i)="your html for page "+(i)
+                textarea(name="pages",id="page"+i)=project.pages[i-1]
+          p
+            button(type="submit") save
+
+      .right
+        iframe(src="/project/"+project._id)
+      
