@@ -46,7 +46,7 @@ html(lang="en")
         e.preventDefault(); 
       }, false);
 
-      $('[data-goto]').on('click',function(){
+      $('[data-goto]').on('click touchstart',function(){
         myScroll.goToPage(0,parseInt($(this).attr('data-goto')));
       });
 
