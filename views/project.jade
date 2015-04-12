@@ -46,7 +46,10 @@ html(lang="en")
         e.preventDefault(); 
       }, false);
 
-      $('[data-goto]').on('click',function(){
-        myScroll.goToPage(0,parseInt($(this).attr('data-goto')));
+      $('[data-goto]').on('click touchstart',function(){
+	    setTimeout(function(){
+		  myScroll.goToPage(0,parseInt($(this).attr('data-goto')));
+		},1);
+        
       });
 
