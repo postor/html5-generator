@@ -46,10 +46,9 @@ html(lang="en")
         e.preventDefault(); 
       }, false);
 
-      $('[data-goto]').on('click touchstart',function(){
+      $('[data-goto]').on('click touchstart',function(e){
         setTimeout(function(){
-          myScroll.goToPage(0,parseInt($(this).attr('data-goto')));
+          myScroll.goToPage(0,parseInt($(e.srcElement).attr('data-goto')));
         },1);
-        
       });
 
