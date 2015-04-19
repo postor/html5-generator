@@ -3,7 +3,7 @@
 }
 
 .right{
-	position: absolute;
+	position: fixed;
 	right: 0;
 	width: 500px;
 	height: 1000px;

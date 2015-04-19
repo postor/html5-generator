@@ -1,0 +1,39 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
+    title= pageTitle
+    
+    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
+    style.
+      #scroller{
+        height: #{pageCount*100}%
+      }
+      .slide{
+        height: #{Math.round(100000/pageCount)/1000}%
+      }
+  body(onload="loaded()")
+    #wrapper
+      #scroller
+        - var i = 0
+        while i++ < pageCount
+          .slide
+            .title='第'+i+'屏'  
+
+    script(src="/statics/js/iscroll.js")
+    script.
+      var myScroll;
+      function loaded () {
+        myScroll = new IScroll('#wrapper', {
+          scrollX: false,
+          scrollY: true,
+          momentum: false,
+          snap: true,
+          snapSpeed: 400,
+          keyBindings: true
+        });
+      }
+      document.addEventListener('touchmove', function (e) { 
+        e.preventDefault(); 
+      }, false);
