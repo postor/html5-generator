@@ -4,6 +4,7 @@ var bodyParser = require('body-parser')
 var util = require('util')
 var libUser = require('./lib/User');
 var libProject = require('./lib/project');
+var q = require('q');
 
 var dump = function(i){
   console.log(util.inspect(i));
@@ -41,19 +42,12 @@ app.get('/login',function(req, res){
 });
 app.post('/login',function(req, res){
   var User = libUser.user;
-    libUser.checkUserPassword(req.body.email,req.body.password,function(dberr,match,result){
-      if(!dberr){
-        if(match){
-            libUser.setLoinCookie(res,req.body.email);
-          res.redirect('/user/' + req.body.email);
-        }else if(result){
-            res.render('login',{errormessage:'password and email mismatch, please try again'});
-        }else{
-            res.render('login',{errormessage:'no such user, please try again'});
-        }
-      }else{
-        res.render('login',{errormessage:'db error, please try again'});
-      }
+    q.fcall(libUser.checkUserPassword,req.body.email,req.body.password)
+    .done(function(){
+      libUser.setLoinCookie(res,req.body.email);
+      res.redirect('/user/' + req.body.email);
+    },function(err){
+      res.render('login',{errormessage:err+', please try again'});
     });
 });
 
@@ -63,38 +57,17 @@ app.get('/regist',function(req, res){
   res.render('regist');
 });
 app.post('/regist',function(req, res){
-  var err = false;
-  if(req.body.password != req.body.repassword){
-    err = 'password mismatch retype';
-    res.render('regist',{error:err});
-  }
+  var createUser = libUser.createUser;
 
-    var User = libUser.user;
-    User.where('email',req.body.email).findOne(function(errcheckexist,existuser){
-      if(errcheckexist){
-        err = 'db error, please retry';
-      res.render('regist',{error:err});
-      }
-    if(existuser){
-        err = 'user exists please login or use another email';
-      res.render('regist',{error:err});
-      }else{
-        var user = new User();
-        user.email = req.body.email
-        user.calcPassword(req.body.password);
-        user.save(function(saveerr){
-          if(saveerr){
-            err = 'db save error, please try again';
-          res.render('regist',{error:err});
-          }else{
-            libUser.setLoinCookie(res,req.body.email);
-            res.redirect('/user/' + req.body.email);
-          }
-        });
-
-      }
-    });
-
+  q.fcall(createUser,req.body)
+  .done(function(user){
+    console.log('not rejected!');
+    libUser.setLoinCookie(res,req.body.email);
+    res.redirect('/user/' + req.body.email);
+  },function(err){
+    console.log('error');
+    res.render('regist',{error:err+', please retry'});
+  });
 });
 
 //首页
@@ -139,28 +112,23 @@ app.param('project', /^[0-9a-f]+$/);
 
 //用户页
 app.get('/user/:user',function(req, res, next){
+
   if(req.user === req.params.user+''){
-    libProject.getUserProjects(req.user,function(err,resultprojects){
-      if(!err){
-        res.render('user',
-          {
-            user:req.params.user,
-            projects: resultprojects
-          }
-        );
-      }else{
-        res.render('user',
-          {
-            user:req.params.user,
-            errormessage: 'failed to load projects'
-          }
-        );
-      }
+    q.fcall(libProject.getUserProjects,req.user)
+    .done(function(resultprojects){
+      res.render('user',{
+          user:req.params.user,
+          projects: resultprojects
+        }
+      );
+    },function(err){
+      res.render('user',{
+        user:req.params.user,
+        errormessage: 'failed to load projects'+err
+      });
     });
   }else{
-    res.render(
-      'error',
-      {
+    res.render('error',{
         errormessage:'this is '+req.params.user+'\'s page',
         linkTitle:'go to my page',
         linkUri:'/user/'+req.user
@@ -172,15 +140,14 @@ app.get('/user/:user',function(req, res, next){
 
 //项目页
 app.get('/project/:project',function(req, res){
-  libProject.loadProject(req.params.project,function(err,result){
-    if(!err){
-      result.pageCount = result.pageCount||1;
-      res.render('project',{project:result});
-    }else{        
-      res.render('error',{
-        errormessage:'project not found'
-      });
-    }
+  q.fcall(libProject.loadProject,req.params.project)
+  .done(function(result){
+    result.pageCount = result.pageCount||1;
+    res.render('project',{project:result});
+  },function(err){
+    res.render('error',{
+      errormessage:'error:'+err
+    });
   });
 });
 
@@ -189,40 +156,26 @@ app.get('/edit',function(req, res){
 
   var ready = function(template){
     //存入一个
-    libProject.newUserProject(req.user,function(err,result){
-      if(!err){
-        //跳转到对应
-        res.redirect('/edit/' + result._id);
-      }else{
-        res.render(
-          'error',
-          {
+    q.fcall(libProject.newUserProject,req.user,template)
+    .done(function(result){
+      res.redirect('/edit/' + result._id);
+    },function(err){
+      res.render('error',{
             errormessage:'db error, please try again',
             linkTitle:'try again!',
             linkUri:'/edit'
           }
         );
-      }
-    },template);
+    });
   }
 
   //如果有模板
   var templid = req.params.template || req.query['template'];
   if(templid){
-    libProject.loadProject(templid,function(err,result){
-      if(err){  
-        res.render(
-          'error',
-          {
-            errormessage:'db error, please try again',
-            linkTitle:'try again!',
-            linkUri:req.url
-          }
-        );
-      }else if(!result){
-        res.render(
-          'error',
-          {
+    q.fcall(libProject.loadProject,templid)
+    .done(function(result){
+      if(!result){
+        res.render('error',{
             errormessage:'template project not found',
             linkTitle:'create a empty one',
             linkUri:'/edit'
@@ -230,29 +183,25 @@ app.get('/edit',function(req, res){
         );
       }else{
         ready(result);
-      }        
+      }  
+    },function(err){
+        res.render('error',{
+            errormessage: err+', please try again',
+            linkTitle:'try again!',
+            linkUri:req.url
+          }
+        );
     });
   }else{
     ready();
   }
-
   
 });
 app.get('/edit/:project',function(req, res){
-  libProject.loadProject(req.params.project,function(err,result){
-    if(err){
-      res.render(
-        'error',
-        {
-          errormessage:'db error, please try again',
-          linkTitle:'try again!',
-          linkUri:req.url
-        }
-      );
-    }else if(!result){
-      res.render(
-        'error',
-        {
+  q.fcall(libProject.loadProject,req.params.project)
+  .done(function(result){
+    if(!result){
+      res.render('error',{
           errormessage:'project not found',
           linkTitle:'show my projects',
           linkUri:'/user/'+req.user
@@ -263,23 +212,20 @@ app.get('/edit/:project',function(req, res){
           project:result
         });
     }
+  },function(err){
+    res.render('error',{
+          errormessage: err + ', please try again',
+          linkTitle:'try again!',
+          linkUri:req.url
+        }
+      );
   });
 });
 app.post('/edit/:project',function(req, res){
-  libProject.updateProject(req.body,function(err,result){
-    if(err){
-      res.render(
-        'error',
-        {
-          errormessage:'db error, please try again',
-          linkTitle:'try again!',
-          linkUri:req.url
-        }
-      );
-    }else if(!result){
-      res.render(
-        'error',
-        {
+  libProject.updateProject(req.body)
+  .done(function(result){
+    if(!result){
+      res.render('error',{
           errormessage:'project not found',
           linkTitle:'show my projects',
           linkUri:'/user/'+req.user
@@ -290,6 +236,13 @@ app.post('/edit/:project',function(req, res){
           project:result
         });
     }
+  },function(err){
+    res.render('error',{
+          errormessage: err + ', please try again',
+          linkTitle:'try again!',
+          linkUri:req.url
+        }
+      );
   });
 });
 
