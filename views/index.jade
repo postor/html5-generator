@@ -3,22 +3,30 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
-    title= pageTitle
-    
+    title= pageTitle    
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
     link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
-  body
-    h1 home
-    p please login
-    form(action="/login",method="post")
-      ul
-        li
-          label(for="email") email
-          input(name="email",id="email")
-        li
-          label(for="password") password
-          input(name="password",type="password",id="password")
-        li
-          button(type="submit") login
+  body.text-center
+    nav.navbar.navbar-fixed-top
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') 首页
+          li
+            a(href='/login') 登陆
+          li
+            a(href='/login') 注册
 
-      a(href="/regist") regist
+
+    .page-header 
+      .container
+        h1 mobweb 
+        p 做自己的h5
+
+    .container
+      .row
+        .col-sm-6
+          a.btn.btn-primary.btn-lg(href='/login') 已有账号，我要登陆
+        .col-sm-6
+          a.btn.btn-info.btn-lg(href='/regist') 尚无账号，我要注册
 
