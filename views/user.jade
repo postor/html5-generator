@@ -4,25 +4,44 @@ html(lang="en")
     meta(charset="utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
     title= pageTitle    
-    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
-    style.
-      #scroller{
-        height: #{pageCount*100}%
-      }
-      .slide{
-        height: #{Math.round(100000/pageCount)/1000}%
-      }
+
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
+    link(rel="stylesheet",type="text/css",href="/statics/css/font-awesome.min.css" )
+
   body
-    #wrapper
-      h1='welcome back, '+user
-      p=errormessage
-      p
-        span='total '+projects.length+' projects  '
-        a(href="/edit") create new project
+    nav.navbar.navbar-fixed-top
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') 首页
+
+    .container
+      .page-header.text-center 
+        h1.lead='欢迎回来， '+user
+        - if (errormessage)
+          p=errormessage
+
+      p.text-right
+        span='共有'+projects.length+'个项目，'
+        a.btn.btn-primary(href="/edit") 创建新项目
 
       if(projects && projects.length)
-        ul.projects
-          each project in projects
-            li
-              p
-                a(href="/edit/"+project._id)=project
+        table.table.table-striped.projects
+          thead
+            tr
+              th ID
+              th 标题
+              th.text-right 操作
+          tbody
+            each project in projects
+              tr
+                td=project._id
+                td
+                  a(href="/edit/"+project._id)=project.title
+                td.text-right
+                  a.btn.icon-edit(href="/edit/"+project._id) 编辑
+                  a.btn.icon-eye-open(href="/project/"+project._id,target="_blank") 查看
+                  a.btn.icon-trash 删除
+
+
+                

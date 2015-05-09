@@ -3,22 +3,35 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
-    title= pageTitle
-    
-    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
-  body
-    h1 login
-    p=errormessage
-    form(action="/login",method="post")
-      ul
-        li
-          label(for="email") email
-          input(name="email",id="email")
-        li
-          label(for="password") password
-          input(name="password",type="password",id="password")
-        li
-          button(type="submit") login
+    title= pageTitle    
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
+  body.text-center
+    nav.navbar.navbar-fixed-top
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') 首页
+          li
+            a(href='/login') 注册
 
-      a(href="/regist") regist
+    .page-header 
+      h1.lead 登陆
+      - if (errormessage)
+        p.bg-danger=errormessage
+
+    .container
+      form.form-horizontal(action="/login",method="post")
+        .form-group
+          label.col-sm-4.control-label(for="email") email
+          .col-sm-4
+            input.form-control(name="email",id="email")
+        .form-group
+          label.col-sm-4.control-label(for="password") password
+          .col-sm-4
+            input.form-control(name="password",type="password",id="password")
+        .form-group
+          button.btn.btn-primary(type="submit") 提交登陆
+          a.btn.btn-link(href="/regist") 我要注册
+        
+        
 

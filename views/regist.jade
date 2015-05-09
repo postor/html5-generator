@@ -5,26 +5,38 @@ html(lang="en")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
     title= pageTitle
     
-    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
-  body
-    h1 regist
-    if(error)
-      p.error=error
-      
-    form(action="/regist",method="post")
-      ul
-        li
-          label(for="email") email
-          input(name="email",id="email")
-        li
-          label(for="password") password
-          input(name="password",type="password",id="password")
-        li
-          label(for="repassword") retype password
-          input(name="repassword",type="password",id="repassword")
-        li
-          button(type="submit") regist
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
+  body.text-center
+    nav.navbar.navbar-fixed-top
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') 首页
+          li
+            a(href='/login') 登陆
 
-      a(href="/login")=login
+    .page-header 
+      h1.lead 注册
+      - if (errormessage)
+        p.bg-danger=error
 
-              
+    .container
+        
+      form.form-horizontal(action="/regist",method="post")
+        .form-group
+          label.col-sm-4.control-label(for="email") email
+          .col-sm-4
+            input.form-control(name="email",id="email")
+        .form-group
+          label.col-sm-4.control-label(for="password") password
+          .col-sm-4
+            input.form-control(name="password",type="password",id="password")
+        .form-group
+          label.col-sm-4.control-label(for="repassword") retype password
+          .col-sm-4
+            input.form-control(name="repassword",type="password",id="repassword")
+        .form-group  
+            button.btn.btn-primary(type="submit") 提交注册
+            a.btn.btn-link(href="/login") 我要登陆
+
+                
