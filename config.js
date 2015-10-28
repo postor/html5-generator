@@ -1,11 +1,11 @@
 
 exports.mongodb = {
-		host:'127.0.0.1',
+		host:'10.96.153.231',
 		project:'mobweb'
 	};
 
 exports.baseSecret = 'postor#gmail#com';
 
 exports.http = {
-	port:80
+	port:8080
 }

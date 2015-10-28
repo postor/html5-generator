@@ -3,30 +3,57 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
     link(rel="stylesheet",type="text/css",href="/statics/css/edit.css" )
     title= pageTitle
   body
-    #wrapper
-      .left
-        p edit your project
-          a(href="/user/"+project.email) my projects
-        form(action="/edit/"+project._id,method="post")
-          input(name="id",type="hidden",value=project._id)
-          p
-            label(for="title") title
-            input(name="title",id="title",value=project.title)
-          p
-            label(for="desc") desc
-            input(name="desc",id="desc",value=project.desc)
-          p
-            label(for="keywords") keywords
-            input(name="keywords",id="keywords",value=project.keywords)
-          p
-            label(for="pageCount") page count
-            input(name="pageCount",id="pageCount",value=project.pageCount)
-          p
-            label(for="css") css
-            textarea(name="css",id="css")=project.css
+    #wrapper(ng-app="editor")
+      .left(ng-controller="editor",data-id=''+project._id)
+        h1.text-right
+          a.btn.btn-default(href="/user/"+project.email) 返回项目列表
+          a.btn.btn-default(ng-click="save()") 保存  
+        
+        ul.nav.nav-tabs.nav-justified(ng-collpase="'main'",ng-collpase-option="{current:{'base':1},forceOneOpen:1}")
+          li(ng-collpase-target="'base'",ng-collpase-parent="'main'")
+            a 基本信息
+          
+          li(ng-collpase-target="'pages'",ng-collpase-parent="'main'")
+            a 页面调整
+          
+          li(ng-collpase-target="'advance'",ng-collpase-parent="'main'")
+            a 高级功能
+            
+        form.form-horizontal
+          fieldset(ng-collpase-href="'base'",ng-collpase-parent="'main'")
+            lengend 修改基本信息
+            .form-group
+              label.col-sm-2.control-label(for="title") 标题
+              .col-sm-10
+                input.form-control(id="title",name="title",ng-model="project.title")
+            
+            .form-group
+              label.col-sm-2.control-label(for="desc") 描述
+              .col-sm-10
+                input.form-control(id="desc",name="desc",ng-model="project.desc")        
+            
+            .form-group
+              label.col-sm-2.control-label(for="pageCount") 页数
+              .col-sm-10
+                input.form-control(id="pageCount",name="pageCount",ng-model="project.pageCount",type="number",min="1",ng-change="")
+                      
+          fieldset(ng-collpase-href="'pages'",ng-collpase-parent="'main'")   
+            lengend 
+              label(for="currentPage") 选择页码   
+              select(id="currentPage",name="currentPage",ng-model="project.currentPage",ng-options="'第'+(1+page.index)+'页' for page in project.pages track by page.index") 
+                
+            .page(ng-repeat="page in project.pages",ng-show="page.index===project.currentPage") 
+              .items
+                .item(ng-repeat="item in page.items")
+                
+              
+          fieldset(ng-collpase-href="'advance'",ng-collpase-parent="'main'")
+            lengend 修改高级属性
+            
           ul
             - var i = 0;
             while i++ < project.pageCount
@@ -38,4 +65,10 @@ html(lang="en")
 
       .right
         iframe(src="/project/"+project._id)
+        
+    script(src="/statics/js/zepto.min.js")
+    script(src="/statics/js/angular.min.js")
+    script(src="/statics/js/ng-collopase.js")
+    script(src="/statics/js/editor.js")
+      
       

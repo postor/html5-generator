@@ -1,14 +1,14 @@
 var express = require('express');
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
-var util = require('util')
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var util = require('util');
 var libUser = require('./lib/User');
 var libProject = require('./lib/project');
 var q = require('q');
 
 var dump = function(i){
   console.log(util.inspect(i));
-}
+};
 
 var app = express();
 var config = require('./config');
@@ -23,9 +23,9 @@ app.set('views', __dirname+'/views');
 app.set('view engine', 'jade');
 app.use(cookieParser());
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 //用户信息
 app.use(function(req, res, next){
@@ -41,7 +41,6 @@ app.get('/login',function(req, res){
     res.render('login');
 });
 app.post('/login',function(req, res){
-  var User = libUser.user;
     q.fcall(libUser.checkUserPassword,req.body.email,req.body.password)
     .done(function(){
       libUser.setLoinCookie(res,req.body.email);
@@ -103,7 +102,7 @@ app.param(function(name, fn){
       } else {
         next('route');
       }
-    }
+    };
   }
 });
 
@@ -167,7 +166,7 @@ app.get('/edit',function(req, res){
           }
         );
     });
-  }
+  };
 
   //如果有模板
   var templid = req.params.template || req.query['template'];
@@ -197,6 +196,9 @@ app.get('/edit',function(req, res){
   }
   
 });
+/**
+ * 编辑页面
+ */
 app.get('/edit/:project',function(req, res){
   q.fcall(libProject.loadProject,req.params.project)
   .done(function(result){
@@ -221,28 +223,31 @@ app.get('/edit/:project',function(req, res){
       );
   });
 });
-app.post('/edit/:project',function(req, res){
+
+
+/**
+ * 获取项目数据
+ */
+app.get('/json/:project',function(req, res){
+  res.setHeader('Content-Type', 'application/json');
+  q.fcall(libProject.loadProject,req.params.project)
+  .done(function(result){
+    res.end(JSON.stringify({error:0,data:result}, null, 2));    
+  },function(err){
+    res.end(JSON.stringify({error:err}, null, 2));    
+  });
+});
+
+/**
+ * 项目编辑页面保存
+ */
+app.post('/json/:project',function(req, res){
+  res.setHeader('Content-Type', 'application/json');
   libProject.updateProject(req.body)
   .done(function(result){
-    if(!result){
-      res.render('error',{
-          errormessage:'project not found',
-          linkTitle:'show my projects',
-          linkUri:'/user/'+req.user
-        }
-      );
-    }else{
-      res.render('edit',{
-          project:result
-        });
-    }
+    res.end(JSON.stringify({error:0,data:result}, null, 2));
   },function(err){
-    res.render('error',{
-          errormessage: err + ', please try again',
-          linkTitle:'try again!',
-          linkUri:req.url
-        }
-      );
+    res.end(JSON.stringify({error:err}, null, 2));
   });
 });
 
