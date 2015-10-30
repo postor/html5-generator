@@ -8,16 +8,16 @@ html(lang="en")
     link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
     style.
       #scroller{
-        height: #{pageCount*100}%
+        height: #{pages.length*100}%
       }
       .slide{
-        height: #{Math.round(100000/pageCount)/1000}%
+        height: #{Math.round(100000/pages.length)/1000}%
       }
   body(onload="loaded()")
     #wrapper
       #scroller
         - var i = 0
-        while i++ < pageCount
+        while i++ < pages.length
           .slide
             .title='第'+i+'屏'  
 

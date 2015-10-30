@@ -1,18 +1,24 @@
-angular.module('editor', ['collpase']).controller('editor',function($scope,$http,$element){
+angular.module('editor', []).controller('editor',function($scope,$http,$element){
   var projectId = $element.attr('data-id');
   $scope.project = {
-    pages:[{index:0,items:[]}],
-    pageCount: 1,
-    currentPage: 0
+    pages:[]
   };
+  
+  $scope.varibles = {
+    selectedTab:0,
+    selectedPage:0,
+    selectedItem:0,
+    newItemName:'未命名元素',
+    newPageName:'未命名页面'
+  };
+  
+  var getNewId = function(){
+    return $scope.project.currentId++;
+  };
+  
   var correctData = function(){
-    $scope.project.pageCount = $scope.project.pageCount || 1;
-    $scope.project.currentPage = $scope.project.currentPage || 0;
-    if(!angular.isArray($scope.project.pages) || $scope.project.pages.length ===0){
-      $scope.project.pages = [{index:0,items:[]}];
-    }
+    (!angular.isArray($scope.project.pages)) || ($scope.project.pages = []);
   };
-    
   
   $http({
     method: 'GET',
@@ -38,14 +44,37 @@ angular.module('editor', ['collpase']).controller('editor',function($scope,$http
     });
   };
   
-  $scope.$watch('project.pageCount',function(newValue){
-    if($scope.project.pages.length === newValue) return;
-    for(var i=0;i<newValue;i++){
-      $scope.project.pages[i] = $scope.project.pages[i] || {items:[]};
-      $scope.project.pages[i].index = i;
-    }
-    if(newValue<$scope.project.currentPage){
-      $scope.project.currentPage = 0;
-    }
-  });
+  /**
+   * 新增页面
+   */
+  $scope.newPage = function(name){
+    var page = {
+      id:getNewId(),
+      name:name,
+      items:[]
+    };
+    $scope.project.pages.push(page);
+  };
+  /**
+   * 删除页面
+   */
+  $scope.deletePage = function($index){
+    $scope.project.pages.splice($index,1);
+  };
+  
+  /**
+   * 新增元素
+   */
+  $scope.newItem = function(name,page){
+    var item = {
+      name:name,
+    };
+    page.items.push(item);
+  };
+  /**
+   * 删除元素
+   */
+  $scope.deleteItem = function($index,page){
+    page.items.splice($index,1);
+  };
 });

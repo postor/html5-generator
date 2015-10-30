@@ -14,17 +14,17 @@ html(lang="en")
           a.btn.btn-default(ng-click="save()") 保存  
         
         ul.nav.nav-tabs.nav-justified(ng-collpase="'main'",ng-collpase-option="{current:{'base':1},forceOneOpen:1}")
-          li(ng-collpase-target="'base'",ng-collpase-parent="'main'")
-            a 基本信息
+          li(ng-class="{active:varibles.selectedTab===0}")
+            a(ng-click="varibles.selectedTab=0") 基本信息
           
-          li(ng-collpase-target="'pages'",ng-collpase-parent="'main'")
-            a 页面调整
+          li(ng-class="{active:varibles.selectedTab===1}")
+            a(ng-click="varibles.selectedTab=1") 页面调整
           
-          li(ng-collpase-target="'advance'",ng-collpase-parent="'main'")
-            a 高级功能
+          li(ng-class="{active:varibles.selectedTab===2}")
+            a(ng-click="varibles.selectedTab=2") 高级功能
             
         form.form-horizontal
-          fieldset(ng-collpase-href="'base'",ng-collpase-parent="'main'")
+          fieldset(ng-show="varibles.selectedTab===0")
             lengend 修改基本信息
             .form-group
               label.col-sm-2.control-label(for="title") 标题
@@ -35,31 +35,28 @@ html(lang="en")
               label.col-sm-2.control-label(for="desc") 描述
               .col-sm-10
                 input.form-control(id="desc",name="desc",ng-model="project.desc")        
-            
-            .form-group
-              label.col-sm-2.control-label(for="pageCount") 页数
-              .col-sm-10
-                input.form-control(id="pageCount",name="pageCount",ng-model="project.pageCount",type="number",min="1",ng-change="")
                       
-          fieldset(ng-collpase-href="'pages'",ng-collpase-parent="'main'")   
-            lengend 
-              label(for="currentPage") 选择页码   
-              select(id="currentPage",name="currentPage",ng-model="project.currentPage",ng-options="'第'+(1+page.index)+'页' for page in project.pages track by page.index") 
-                
-            .page(ng-repeat="page in project.pages",ng-show="page.index===project.currentPage") 
-              .items
-                .item(ng-repeat="item in page.items")
-                
-              
-          fieldset(ng-collpase-href="'advance'",ng-collpase-parent="'main'")
+          fieldset(ng-show="varibles.selectedTab===1")
+            span {{project}} 
+            ul.pages
+              li.page(ng-repeat="page in project.pages")
+                h2
+                  a(ng-click="varibles.selectedPage=$index") {{page.name}}
+                  a(ng-click="deletePage($index)") 删除
+                                       
+                ul.items(ng-show="varibles.selectedPage===$index") 
+                  li.item(ng-repeat="item in page.items") 
+                    em {{page.name}}
+                  li.new-item
+                    input(ng-model="varibles.newItemName")
+                    a.btn.btn-small(ng-click="newItem(varibles.newItemName)") 添加
+                    
+              li.new-page
+                input(ng-model="varibles.newPageName")
+                a.btn.btn-small(ng-click="newPage(varibles.newPageName)") 添加
+          fieldset(ng-show="varibles.selectedTab===2")
             lengend 修改高级属性
-            
-          ul
-            - var i = 0;
-            while i++ < project.pageCount
-              li
-                label(for="page"+i)="your html for page "+(i)
-                textarea(name="pages",id="page"+i)=project.pages[i-1]
+          
           p
             button(type="submit") save
 
@@ -68,7 +65,6 @@ html(lang="en")
         
     script(src="/statics/js/zepto.min.js")
     script(src="/statics/js/angular.min.js")
-    script(src="/statics/js/ng-collopase.js")
     script(src="/statics/js/editor.js")
       
       
