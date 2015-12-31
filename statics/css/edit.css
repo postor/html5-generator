@@ -1,22 +1,60 @@
-.left{
-	margin-right: 500px;
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
 }
 
-.right{
-	position: fixed;
-	right: 0;
-	width: 500px;
-	height: 1000px;
-	top: 0;
+h5-element {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+  cursor: move;
+  
 }
 
-textarea{
-	display: block;
-	width: 80%;
-	height: 100px;
+h5-element .drag {
+  content: '';
+  position: absolute;
+  box-sizing: border-box;
+  width: 0px;
+  height: 0px;
+  border: 5px solid #ddd;
+  border-top: 5px solid transparent;
+  border-left: 5px solid transparent;
+  right: 0;
+  bottom: 0;
+  cursor: crosshair;
 }
 
-iframe{
-	width: 480px;
-	height: 960px;
+.phone-box {
+  border: 1px solid #000;
+  position: relative;
+}
+
+.phone-box svg {
+  width: 100%;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+}
+
+.phone-screen h5-element {
+  border: 1px solid #ddd;
+  position: absolute;
+  box-sizing: border-box;
+  overflow: hidden ;
+  
+  justify-content:center;
+  display:flex;
+  align-items: center;
+}
+
+.active {
+  border: 1px solid #ddd;
 }

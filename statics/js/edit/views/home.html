@@ -1,0 +1,195 @@
+<div class="container-fluid">
+  <div class="container">
+    <div class="row">
+	    <div class="col-md-12">
+	      <a class="btn btn-large btn-primary" ng-click="save()">保存</a>
+        <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>
+	    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2">
+      <h2>选择分页</h2>
+      <ul>
+        <li ng-repeat="page in pages" ng-class="{active:currentPageIndex==$index}">
+          <label ng-click="setCurrentPage($index)">第{{$index+1}}</label>
+          <a class="btn" ng-click="removePage($index)">删除</a>
+        </li>
+      </ul>
+      <a class="btn btn-large" ng-click="newPage()">添加页面</a>
+    </div>
+    <div class="col-md-4">
+      <h2>当前编辑第{{currentPageIndex+1}}页</h2>
+      <div class="phone-box" ng-style="{width: resolution.current.width,height:resolution.current.height}">
+        
+        <div class="phone-screen">
+          <h5-element ng-repeat="itemId in currentPage.items" 
+            item="items[itemId]" 
+            set-item="setCurrentItem(itemId)"
+            item-id="{{itemId}}"
+            resolution="resolution.current" 
+            ng-style="items[itemId].style|stylefilter:items[itemId].type">
+          </h5-element>
+          
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <h2 ng-if="currentPageIndex>=0">第{{currentPageIndex+1}}页下的元素</h2>
+      <h2 ng-if="currentPageIndex<0">暂无页面</h2>
+      <ul>
+        <li ng-repeat="itemId in currentPage.items" ng-class="{active:currentItemIndex==itemId}">
+          <label ng-click="setCurrentItem(itemId)">第{{items[itemId].name}}</label>
+          <a class="btn" ng-click="removeItem($index)">删除</a>
+        </li>
+      </ul>
+      <a class="btn btn-large" ng-click="newItem()">添加元素</a>
+    </div>
+    <div class="col-md-3">
+      <h2 ng-if="currentItemIndex<0">暂无元素</h2>
+      <div ng-if="currentItemIndex>=0">
+	      <h2>元素 {{currentItem.name}} 的属性</h2>
+	      <ul>
+	        <li>
+	          <label class="form-label">上偏移</label>
+	          <div class="input-group">
+		          <input class="form-control" ng-model="currentItem.style.top">
+		          <div class="input-group-addon">%</div>
+	          </div>
+	        </li>
+	        <li>
+	          <label class="form-label">下偏移</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.style.left">
+              <div class="input-group-addon">%</div>
+            </div>
+	        </li>
+	        <li>
+	          <label class="form-label">宽度</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.style.width">
+              <div class="input-group-addon">%</div>
+            </div>
+	        </li>
+	        <li>
+	          <label class="form-label">高度</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.style.height">
+              <div class="input-group-addon">%</div>
+            </div>
+	        </li>
+          <li>
+            <label class="form-label">类型</label>
+            <select class="form-control" ng-model="currentItem.type" 
+              ng-options="k as v for (k,v) in ItemTypes"></select>
+          </li>
+          <!-- text -->          
+          <li ng-if="currentItem.type == 'text'">
+            <label class="form-label">文本</label>
+            <input class="form-control" ng-model="currentItem.text">
+          </li>          
+          <li ng-if="currentItem.type == 'text'">
+            <label class="form-label">链接地址</label>
+            <input class="form-control" ng-model="currentItem.href">
+          </li>      
+          <li ng-if="currentItem.type == 'text'">
+            <label class="form-label">字号</label>
+            <div class="input-group">
+              <input class="form-control" type="number" ng-model="currentItem.style.fontSize">
+              <div class="input-group-addon">px</div>
+            </div>
+          </li>           
+          <li ng-if="currentItem.type == 'text'">
+            <label class="form-label">水平对齐</label>
+	          <div class="input-group">
+	            <label class="radio-inline">
+							  <input type="radio" ng-model="currentItem.style.justifyContent" value="flex-start">←						  
+							</label>
+	            <label class="radio-inline">
+	              <input type="radio" ng-model="currentItem.style.justifyContent" value="center">¤             
+	            </label>
+	            <label class="radio-inline">
+	              <input type="radio" ng-model="currentItem.style.justifyContent" value="flex-end">→             
+	            </label>
+            </div>
+          </li>
+          <li ng-if="currentItem.type == 'text'">
+            <label class="form-label">垂直对齐</label>
+            <div class="input-group">
+	            <label class="radio-inline">
+	              <input type="radio" ng-model="currentItem.style.alignItems" value="flex-start">↑             
+	            </label>
+	            <label class="radio-inline">
+	              <input type="radio" ng-model="currentItem.style.alignItems" value="center">¤             
+	            </label>
+	            <label class="radio-inline">
+	              <input type="radio" ng-model="currentItem.style.alignItems" value="flex-end">↓             
+	            </label>
+            </div>
+          </li>
+          <!-- image -->
+          <li ng-if="currentItem.type == 'image'">
+            <label class="form-label">选择图片</label>
+            <input class="form-control" type="file" fileread="currentItem.style.backgroundImage">
+            <img alt="" ng-src="{{currentItem.style.backgroundImage}}" style="width: 100px;height: 100px;">
+          </li>
+          <li ng-if="currentItem.type == 'image'">
+            <label class="form-label">背景平铺</label>
+            <input class="form-control" type="checkbox" ng-model="currentItem.style.backgroundRepeat"
+              ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+          </li>
+          <li ng-if="currentItem.type == 'image'">
+            <label class="form-label">背景位置</label>
+            <div class="input-group">
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="center">◎ 居中           
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="center top">↑             
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="top right">↗         
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="center right">→   
+              </label>              
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="bottom right">↘        
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="center bottom">↓         
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="bottom left">↙            
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="center left">←            
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundPosition" value="top left">↖            
+              </label>
+            </div>
+          </li>
+          <li ng-if="currentItem.type == 'image'">
+            <label class="form-label">背景大小</label>
+            <div class="input-group">
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundSize" value="initial">默认             
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundSize" value="cover">cover             
+              </label>
+              <label class="radio-inline">
+                <input type="radio" ng-model="currentItem.style.backgroundSize" value="contain">contain             
+              </label>
+            </div>
+          </li>
+          <!-- other -->
+	        
+	      </ul>
+      </div>
+      
+    </div>
+  </div>
+</div>

@@ -6,65 +6,21 @@ html(lang="en")
     link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
     link(rel="stylesheet",type="text/css",href="/statics/css/edit.css" )
     title= pageTitle
-  body
-    #wrapper(ng-app="editor")
-      .left(ng-controller="editor",data-id=''+project._id)
-        h1.text-right
-          a.btn.btn-default(href="/user/"+project.email) 返回项目列表
-          a.btn.btn-default(ng-click="save()") 保存  
-        
-        ul.nav.nav-tabs.nav-justified(ng-collpase="'main'",ng-collpase-option="{current:{'base':1},forceOneOpen:1}")
-          li(ng-class="{active:varibles.selectedTab===0}")
-            a(ng-click="varibles.selectedTab=0") 基本信息
-          
-          li(ng-class="{active:varibles.selectedTab===1}")
-            a(ng-click="varibles.selectedTab=1") 页面调整
-          
-          li(ng-class="{active:varibles.selectedTab===2}")
-            a(ng-click="varibles.selectedTab=2") 高级功能
-            
-        form.form-horizontal
-          fieldset(ng-show="varibles.selectedTab===0")
-            lengend 修改基本信息
-            .form-group
-              label.col-sm-2.control-label(for="title") 标题
-              .col-sm-10
-                input.form-control(id="title",name="title",ng-model="project.title")
-            
-            .form-group
-              label.col-sm-2.control-label(for="desc") 描述
-              .col-sm-10
-                input.form-control(id="desc",name="desc",ng-model="project.desc")        
-                      
-          fieldset(ng-show="varibles.selectedTab===1")
-            span {{project}} 
-            ul.pages
-              li.page(ng-repeat="page in project.pages")
-                h2
-                  a(ng-click="varibles.selectedPage=$index") {{page.name}}
-                  a(ng-click="deletePage($index)") 删除
-                                       
-                ul.items(ng-show="varibles.selectedPage===$index") 
-                  li.item(ng-repeat="item in page.items") 
-                    em {{page.name}}
-                  li.new-item
-                    input(ng-model="varibles.newItemName")
-                    a.btn.btn-small(ng-click="newItem(varibles.newItemName)") 添加
-                    
-              li.new-page
-                input(ng-model="varibles.newPageName")
-                a.btn.btn-small(ng-click="newPage(varibles.newPageName)") 添加
-          fieldset(ng-show="varibles.selectedTab===2")
-            lengend 修改高级属性
-          
-          p
-            button(type="submit") save
-
-      .right
-        iframe(src="/project/"+project._id)
-        
-    script(src="/statics/js/zepto.min.js")
-    script(src="/statics/js/angular.min.js")
-    script(src="/statics/js/editor.js")
+  body(ng-app='animatetool')
+    div(ng-view='')
+    input(type='hidden',id='project',value=project._id||project.id)
+    input(type='hidden',id='email',value=project.email)
+    
+    script(src='/statics/bower_components/jquery/dist/jquery.min.js')
+    script(src='/statics/bower_components/angular/angular.min.js')
+    script(src='/statics/bower_components/angular-route/angular-route.min.js')
+    script(src='/statics/bower_components/angular-resource/angular-resource.min.js')
+    
+    script(src='/statics/js/edit/index.js')
+    script(src='/statics/js/edit/directives/h5element.js')
+    script(src='/statics/js/edit/directives/fileread.js')
+    script(src='/statics/js/edit/filters/style.js')
+    script(src='/statics/js/edit/filters/h5content.js')
+    script(src='/statics/js/edit/controllers/home.js')
       
       

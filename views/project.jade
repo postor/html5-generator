@@ -10,10 +10,10 @@ html(lang="en")
     link(rel="stylesheet",type="text/css",href="/statics/css/project.css" )
     style.
       #scroller{
-        height: #{project.pageCount*100}%
+        height: #{project.pageHtmls.length*100}%
       }
       .slide{
-        height: #{Math.round(100000/project.pageCount)/1000}%
+        height: #{Math.round(100000/project.pageHtmls.length)/1000}%
       }
     style!=project.css
 
@@ -21,9 +21,9 @@ html(lang="en")
     #wrapper
       #scroller
         - var i = 0
-        while i++ < project.pageCount
-          if(project.pages[i-1])
-            div(class="slide page"+i)!=project.pages[i-1]
+        while i++ < project.pageHtmls.length
+          if(project.pageHtmls[i-1])
+            div(class="slide page"+i)!=project.pageHtmls[i-1]
           else
             div(class="slide page"+i)
               .title='the '+i+'th page'  

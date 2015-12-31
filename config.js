@@ -1,6 +1,6 @@
 
 exports.mongodb = {
-		host:'10.96.153.231',
+		host:'10.96.153.220',
 		project:'mobweb'
 	};
 
