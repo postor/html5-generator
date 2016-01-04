@@ -63,4 +63,11 @@ ul, li {
   -ms-flex-pack: center;
   /* new expression */
   -webkit-justify-content: center;
-  justify-content: center; }
+  justify-content: center; 
+  
+  position: relative;  
+}
+
+.slide > * {
+	position: absolute;
+}
