@@ -23,6 +23,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         }];
         $scope.items = rtn.data.data.items||{};  
         $scope.setCurrentPage(!!$scope.pages.length - 1);
+        idgen.setId(rtn.data.data.curId);
         $scope.$applyAsync();
       }
     },function(){
@@ -134,6 +135,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         pages:$scope.pages,
         items:$scope.items,
         pageHtmls:pageHtmls,
+        curId:idgen.getId(),
         css:css,
         id:$scope.project
       }).then(function(rtn) {

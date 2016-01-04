@@ -27,7 +27,13 @@
     return {
       newId:function(){
         return curId++;
-      }    
+      },
+      setId:function(v){
+        curId = v;
+      },
+      getId:function(){
+        return curId;
+      }
     }
   });
   
