@@ -43,31 +43,13 @@ ul, li {
   text-size-adjust: none; }
 
 .slide {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  /* old expression */
-  -webkit-box-align: center;
-  -moz-box-align: center;
-  /* mix expression */
-  -ms-flex-align: center;
-  /* new expression */
-  -webkit-align-items: center;
-  align-items: center;
-  /* old expression */
-  -webkit-box-pack: center;
-  -moz-box-pack: center;
-  /* mix expression */
-  -ms-flex-pack: center;
-  /* new expression */
-  -webkit-justify-content: center;
-  justify-content: center; 
-  
   position: relative;  
 }
 
 .slide > * {
 	position: absolute;
+	justify-content:center;
+  display:flex;
+  align-items: center;
+  background-repeat: no-repeat;
 }

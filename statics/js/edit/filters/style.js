@@ -45,7 +45,11 @@
       backgroundPosition:types.camelCase,
       backgroundSize:types.camelCase,
       alignItems:types.camelCase,
-      justifyContent:types.camelCase
+      justifyContent:types.camelCase,
+      backgroundColor:types.camelCase,
+      borderWidth:types.camelCasePx,
+      borderStyle:types.camelCase,
+      borderColor:types.camelCase
     };
     return function(raw,itemType){
       

@@ -39,12 +39,18 @@ html(lang="en")
           scrollY: true,
           momentum: false,
           snap: true,
-          snapSpeed: 400
+          snapSpeed: 400,
+          zoom: false
+        });
+        $body = $('body');
+        myScroll.on('scrollEnd', function () {
+          $body.attr('class','p'+(this.currentPage.pageY));
         });
       }
       document.addEventListener('touchmove', function (e) { 
         e.preventDefault(); 
       }, false);
+      
 
       $('[data-goto]').on('click touchstart',function(e){
         setTimeout(function(){

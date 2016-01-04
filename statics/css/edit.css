@@ -53,6 +53,8 @@ h5-element .drag {
   justify-content:center;
   display:flex;
   align-items: center;
+  
+  background-repeat: no-repeat;
 }
 
 .active {

@@ -2,6 +2,7 @@
   <div class="container">
     <div class="row">
 	    <div class="col-md-12">
+	      <input type="text" ng-model="info.title">
 	      <a class="btn btn-large btn-primary" ng-click="save()">保存</a>
         <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>
 	    </div>
@@ -23,7 +24,7 @@
       <h2>当前编辑第{{currentPageIndex+1}}页</h2>
       <div class="phone-box" ng-style="{width: resolution.current.width,height:resolution.current.height}">
         
-        <div class="phone-screen">
+        <div class="phone-screen" ng-style="currentPage.style|stylefilter:'image'">
           <h5-element ng-repeat="itemId in currentPage.items" 
             item="items[itemId]" 
             set-item="setCurrentItem(itemId)"
@@ -35,8 +36,81 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3">
-      <h2 ng-if="currentPageIndex>=0">第{{currentPageIndex+1}}页下的元素</h2>
+    <div ng-hide="pageStates.pageTab=='items'" class="col-md-3">
+      <h2 ng-if="currentPageIndex<0">暂无页面</h2>
+      <div ng-if="currentPageIndex>=0">      
+	      <h2>第{{currentPageIndex+1}}页面属性
+	        <a ng-click="pageStates.pageTab='items'">查看元素</a></h2>
+	        <ul>
+		        <li>
+	            <label class="form-label">背景色</label>
+	            <div class="input-group">
+	              <input class="form-control" type="color" ng-model="currentPage.style.backgroundColor">
+	            </div>
+	          </li>    
+		        <li>
+	            <label class="form-label">背景图片</label>
+	            <input class="form-control" type="file" fileread="currentPage.style.backgroundImage">
+	            <img alt="" ng-src="{{currentPage.style.backgroundImage}}" style="width: 100px;height: 100px;">
+	          </li>
+	          <li>
+	            <label class="form-label">背景平铺</label>
+	            <input class="form-control" type="checkbox" ng-model="currentPage.style.backgroundRepeat"
+	              ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+	          </li>
+	          <li>
+	            <label class="form-label">背景位置</label>
+	            <div class="input-group">
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center">◎ 居中           
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center top">↑             
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top right">↗         
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center right">→   
+	              </label>              
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom right">↘        
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center bottom">↓         
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom left">↙            
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center left">←            
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top left">↖            
+	              </label>
+	            </div>
+	          </li>
+	          <li>
+	            <label class="form-label">背景大小</label>
+	            <div class="input-group">
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="initial">默认             
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="cover">cover             
+	              </label>
+	              <label class="radio-inline">
+	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="contain">contain             
+	              </label>
+	            </div>
+	          </li>
+		      </ul>
+      </div>
+      
+    </div>
+    <div ng-if="pageStates.pageTab=='items'" class="col-md-3">
+      <h2 ng-if="currentPageIndex>=0">第{{currentPageIndex+1}}页下的元素
+        <a ng-click="pageStates.pageTab='page'">查看页属性</a></h2>
       <h2 ng-if="currentPageIndex<0">暂无页面</h2>
       <ul>
         <li ng-repeat="itemId in currentPage.items" ng-class="{active:currentItemIndex==itemId}">
@@ -46,10 +120,63 @@
       </ul>
       <a class="btn btn-large" ng-click="newItem()">添加元素</a>
     </div>
-    <div class="col-md-3">
+    <div ng-if="pageStates.itemTab=='animate'" class="col-md-3" >
       <h2 ng-if="currentItemIndex<0">暂无元素</h2>
       <div ng-if="currentItemIndex>=0">
-	      <h2>元素 {{currentItem.name}} 的属性</h2>
+        <h2>元素 {{currentItem.name}} 的动画<a ng-click="pageStates.itemTab='item'">编辑样式</a></h2>
+        <ul>
+          <li>
+            <label class="form-label">
+              <input type="checkbox" ng-model="currentItem.animate.enabled">是否启用</label>
+              
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">动画类型</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.type">
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">动画延迟</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.delay">
+              <div class="input-group-addon">秒</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">持续时间</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.duration">
+              <div class="input-group-addon">秒</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">过度曲线</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.timingFunction">
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">上下偏移（正数表示从上方进入）</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.offsetY">
+              <div class="input-group-addon">px</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">左右偏移（正数表示从左侧进入）</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.offsetX">
+              <div class="input-group-addon">px</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">重复次数</label>
+            <div class="input-group">
+              <input class="form-control" type="number" ng-model="currentItem.animate.iterationCount">
+              <div class="input-group-addon">次</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div ng-if="pageStates.itemTab!='animate'"  class="col-md-3">
+      <h2 ng-if="currentItemIndex<0">暂无元素</h2>
+      <div ng-if="currentItemIndex>=0">
+	      <h2>元素 {{currentItem.name}} 的样式<a ng-click="pageStates.itemTab='animate'">编辑动画</a></h2>
 	      <ul>
 	        <li>
 	          <label class="form-label">上偏移</label>
@@ -79,6 +206,29 @@
               <div class="input-group-addon">%</div>
             </div>
 	        </li>
+	        
+          <li>
+            <label class="form-label">背景色</label>
+            <div class="input-group">
+              <input class="form-control" type="color" ng-model="currentItem.style.backgroundColor">
+            </div>
+          </li>          
+          <li>
+            <label class="form-label">边框颜色</label>
+            <div class="input-group">
+              <input class="form-control"  type="color" ng-model="currentItem.style.borderColor">
+            </div>
+            <label class="form-label">边框宽度</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.style.borderWidth">
+              <div class="input-group-addon"  type="number">px</div>
+            </div>
+            <label class="form-label">边框宽度</label>
+            <div class="input-group">
+              <select class="form-control" ng-model="currentItem.style.borderStyle" 
+              ng-options="k as v for (k,v) in BorderStyles"></select>
+            </div>
+          </li>
           <li>
             <label class="form-label">类型</label>
             <select class="form-control" ng-model="currentItem.type" 

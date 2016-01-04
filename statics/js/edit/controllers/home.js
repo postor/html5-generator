@@ -5,8 +5,11 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
     //初始化页面列表
     $scope.pages=[{
       items:[],
+      style:{}
       //id:idgen.newId()
     }];
+    
+    $scope.pageStates = {pageTab:'page',itemTab:'item'};
     
     //初始化物品列表，注意是object
     $scope.items={};
@@ -17,6 +20,8 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
       if(rtn.data.error){
         alert('服务器异常！');
       }else{
+        $scope.info = rtn.data.data;
+        $scope.info.title = $scope.info.title || '新的项目';
         $scope.pages = rtn.data.data.pages||[{
           items:[],
           //id:idgen.newId()
@@ -35,6 +40,42 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
       image:'图像'
     };
     
+    $scope.BorderStyles = {
+        solid:'实线',
+        dashed:'虚线'
+      };
+    
+    $scope.AnimateTypes = {
+        fadeIn:{
+          title:'淡入',
+          getCssClass:function(item){
+            return 'fadein'+item.id;
+          },
+          getCssContent:function(item,page){
+            var cssClass = this.getCssClass(item);
+            var selector = '.'+cssClass;
+            var rtn = [];
+            var styles = ['display:flex;'];
+            rtn.push(selector+'{display:none}');
+            var prefixs = ['','-webkit'];
+            angular.forEach(prefixs, function(prefix) {
+              styles.push(prefix+'animation:'
+                  +[
+                    cssClass,
+                    item.animate.duration,
+                    item.animate.timingFunction,
+                    item.animate.direction,
+                    item.animate.iterationCount,
+                   ].join(' '))
+            },styles);   
+            
+            rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
+          }
+        },
+        fadeOut:{
+          title:'淡出',
+        }
+      };
     
     //初始化机型
     $scope.resolution = {};
@@ -91,7 +132,20 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
           width:20,
           height:20,
           fontSize:12,
-          backgroundRepeat:'no-repeat'
+          backgroundRepeat:'no-repeat',
+          borderColor:'#000',
+          borderStyle:'solid',
+          borderWidth:0
+        },
+        animate:{
+          enabled: false,
+          type: 'fadeIn',
+          offsetX: 100,
+          offsetY: 100,
+          delay: 0,
+          time: 0.6,
+          timingFunction: 'ease',
+          iterate: 1
         }
       };
     };
@@ -113,12 +167,14 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         angular.forEach(page.items, function(itemId) {
           usedItems.push(itemId);
           var item = $scope.items[itemId]
-          var itemHtml = '<div class="e'+item.id+'">'+$filter('h5content')(item,true)+'</div>';
+          var itemHtml = '<div class="e'+item.id
+            +(item.animate.enabled?' '+item.animate.type+item.id:'')
+            +'">'+$filter('h5content')(item,true)+'</div>';
           this.push(itemHtml);
         },itemHtmls);        
         this.push(itemHtmls.join(''));
       }, pageHtmls);
-      //css
+      //css for items
       angular.forEach(usedItems, function(itemId) {
         var item = $scope.items[itemId]
         var obj = $filter('stylefilter')(item.style,item.type);
@@ -128,17 +184,28 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         },itemCss);
         this.push('.e'+item.id+'{'+itemCss.join('')+'}');
       },pageCss);
+      //css for pages
+      angular.forEach($scope.pages, function(page,pageIndex) {        
+        var obj = $filter('stylefilter')(page.style,'image');
+        var itemCss = [];
+        angular.forEach(obj, function(v,k){
+          this.push(k+':'+v+';');
+        },itemCss);
+        this.push('.page'+(pageIndex+1)+'{'+itemCss.join('')+'}');
+      },pageCss);
+      
       var css = pageCss.join("\n\r");
       
-      
-      $http.post('/json/'+$scope.project,{
+      //提交
+      delete $scope.info._id;
+      $http.post('/json/'+$scope.project,angular.extend($scope.info,{
         pages:$scope.pages,
         items:$scope.items,
         pageHtmls:pageHtmls,
         curId:idgen.getId(),
         css:css,
         id:$scope.project
-      }).then(function(rtn) {
+      })).then(function(rtn) {
         alert('保存成功')
       },function(){
         alert('网络异常！');
