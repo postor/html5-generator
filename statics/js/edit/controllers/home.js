@@ -1,5 +1,5 @@
-app.controller('homeCtrl',['$scope','idgen','$filter','$http'
-                           ,function($scope,idgen,$filter,$http
+app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
+                           ,function($scope,idgen,$filter,$http,AnimateTypes
                                ){
 
     //初始化页面列表
@@ -45,37 +45,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         dashed:'虚线'
       };
     
-    $scope.AnimateTypes = {
-        fadeIn:{
-          title:'淡入',
-          getCssClass:function(item){
-            return 'fadein'+item.id;
-          },
-          getCssContent:function(item,page){
-            var cssClass = this.getCssClass(item);
-            var selector = '.'+cssClass;
-            var rtn = [];
-            var styles = ['display:flex;'];
-            rtn.push(selector+'{display:none}');
-            var prefixs = ['','-webkit'];
-            angular.forEach(prefixs, function(prefix) {
-              styles.push(prefix+'animation:'
-                  +[
-                    cssClass,
-                    item.animate.duration,
-                    item.animate.timingFunction,
-                    item.animate.direction,
-                    item.animate.iterationCount,
-                   ].join(' '))
-            },styles);   
-            
-            rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
-          }
-        },
-        fadeOut:{
-          title:'淡出',
-        }
-      };
+    $scope.AnimateTypes = AnimateTypes;
     
     //初始化机型
     $scope.resolution = {};
@@ -142,10 +112,12 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
           type: 'fadeIn',
           offsetX: 100,
           offsetY: 100,
+          roate:0,
+          scale:1,
           delay: 0,
-          time: 0.6,
+          duration: 0.6,
           timingFunction: 'ease',
-          iterate: 1
+          iterationCount: 1
         }
       };
     };
@@ -168,7 +140,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
           usedItems.push(itemId);
           var item = $scope.items[itemId]
           var itemHtml = '<div class="e'+item.id
-            +(item.animate.enabled?' '+item.animate.type+item.id:'')
+            +(item.animate.enabled?' '+$filter('animateClassName')(item):'')
             +'">'+$filter('h5content')(item,true)+'</div>';
           this.push(itemHtml);
         },itemHtmls);        
@@ -193,6 +165,15 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http'
         },itemCss);
         this.push('.page'+(pageIndex+1)+'{'+itemCss.join('')+'}');
       },pageCss);
+      //css for animation
+      angular.forEach($scope.pages, function(page,pageIndex) {   
+        var itemCss=[];
+        angular.forEach(page.items, function(itemId) {       
+          var itemCss = $filter('animateItem')($scope.items[itemId],pageIndex,false);
+          this.push(itemCss);
+        },itemCss);        
+        this.push(itemCss.join(''));
+      },pageCss);    
       
       var css = pageCss.join("\n\r");
       

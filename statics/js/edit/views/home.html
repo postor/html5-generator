@@ -1,3 +1,5 @@
+
+<style ng-bind-html="currentItem|animateItem:currentPageIndex:true"></style>
 <div class="container-fluid">
   <div class="container">
     <div class="row">
@@ -8,7 +10,6 @@
 	    </div>
     </div>
   </div>
-  
   <div class="row">
     <div class="col-md-2">
       <h2>选择分页</h2>
@@ -22,7 +23,7 @@
     </div>
     <div class="col-md-4">
       <h2>当前编辑第{{currentPageIndex+1}}页</h2>
-      <div class="phone-box" ng-style="{width: resolution.current.width,height:resolution.current.height}">
+      <div class="phone-box" ng-class="'p'+currentPageIndex" ng-style="{width: resolution.current.width,height:resolution.current.height}">
         
         <div class="phone-screen" ng-style="currentPage.style|stylefilter:'image'">
           <h5-element ng-repeat="itemId in currentPage.items" 
@@ -30,7 +31,9 @@
             set-item="setCurrentItem(itemId)"
             item-id="{{itemId}}"
             resolution="resolution.current" 
-            ng-style="items[itemId].style|stylefilter:items[itemId].type">
+            ng-style="items[itemId].style|stylefilter:items[itemId].type"
+            ng-class="items[itemId]|animateClassName"
+            >
           </h5-element>
           
         </div>
@@ -132,7 +135,8 @@
           </li><li ng-if="currentItem.animate.enabled">
             <label class="form-label">动画类型</label>
             <div class="input-group">
-              <input class="form-control" ng-model="currentItem.animate.type">
+	            <select class="form-control" ng-model="currentItem.animate.type" 
+	              ng-options="k as v.title for (k,v) in AnimateTypes"></select>
             </div>
           </li><li ng-if="currentItem.animate.enabled">
             <label class="form-label">动画延迟</label>
@@ -165,6 +169,9 @@
             </div>
           </li><li ng-if="currentItem.animate.enabled">
             <label class="form-label">重复次数</label>
+            <label class="form-label">
+              <input class="form-control" type="checkbox" ng-model="currentItem.animate.iterationInfinite">无限重复
+            </label>
             <div class="input-group">
               <input class="form-control" type="number" ng-model="currentItem.animate.iterationCount">
               <div class="input-group-addon">次</div>

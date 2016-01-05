@@ -46,6 +46,7 @@ html(lang="en")
         myScroll.on('scrollEnd', function () {
           $body.attr('class','p'+(this.currentPage.pageY));
         });
+        $body.attr('class','p'+(myScroll.currentPage.pageY));
       }
       document.addEventListener('touchmove', function (e) { 
         e.preventDefault(); 
