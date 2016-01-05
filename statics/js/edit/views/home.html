@@ -48,7 +48,10 @@
 		        <li>
 	            <label class="form-label">背景色</label>
 	            <div class="input-group">
-	              <input class="form-control" type="color" ng-model="currentPage.style.backgroundColor">
+                <label class="form-label">透明
+                  <input type="checkbox" ng-model="currentPage.style.backgroundColorTransparent">
+                </label>
+	              <input ng-if="!currentPage.style.backgroundColorTransparent" type="color" ng-model="currentPage.style.backgroundColor">
 	            </div>
 	          </li>    
 		        <li>
@@ -57,9 +60,11 @@
 	            <img alt="" ng-src="{{currentPage.style.backgroundImage}}" style="width: 100px;height: 100px;">
 	          </li>
 	          <li>
-	            <label class="form-label">背景平铺</label>
-	            <input class="form-control" type="checkbox" ng-model="currentPage.style.backgroundRepeat"
-	              ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+	            <label class="form-label">背景平铺
+	              <input type="checkbox" ng-model="currentPage.style.backgroundRepeat"
+                ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+	            </label>
+	            
 	          </li>
 	          <li>
 	            <label class="form-label">背景位置</label>
@@ -217,7 +222,10 @@
           <li>
             <label class="form-label">背景色</label>
             <div class="input-group">
-              <input class="form-control" type="color" ng-model="currentItem.style.backgroundColor">
+              <label class="form-label">透明
+                <input type="checkbox" ng-model="currentItem.style.backgroundColorTransparent">
+              </label>
+              <input ng-if="!currentItem.style.backgroundColorTransparent" type="color" ng-model="currentItem.style.backgroundColor">
             </div>
           </li>          
           <li>
@@ -292,9 +300,11 @@
             <img alt="" ng-src="{{currentItem.style.backgroundImage}}" style="width: 100px;height: 100px;">
           </li>
           <li ng-if="currentItem.type == 'image'">
-            <label class="form-label">背景平铺</label>
-            <input class="form-control" type="checkbox" ng-model="currentItem.style.backgroundRepeat"
+            <label class="form-label">背景平铺
+              <input type="checkbox" ng-model="currentItem.style.backgroundRepeat"
               ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+            </label>
+            
           </li>
           <li ng-if="currentItem.type == 'image'">
             <label class="form-label">背景位置</label>

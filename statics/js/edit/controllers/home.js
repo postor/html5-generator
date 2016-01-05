@@ -5,7 +5,10 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
     //初始化页面列表
     $scope.pages=[{
       items:[],
-      style:{}
+      style:{
+        backgroundColorTransparent:true,
+        backgroundRepeat:'no-repeat'
+      }
       //id:idgen.newId()
     }];
     
@@ -105,7 +108,8 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
           backgroundRepeat:'no-repeat',
           borderColor:'#000',
           borderStyle:'solid',
-          borderWidth:0
+          borderWidth:0,
+          backgroundColorTransparent:true
         },
         animate:{
           enabled: false,

@@ -51,6 +51,13 @@
       borderStyle:types.camelCase,
       borderColor:types.camelCase
     };
+    
+    var ignores = {
+        backgroundColorTransparent:function(rtn,v){
+          if(v)rtn['background-color'] = 'transparent';
+        }
+    };
+    
     return function(raw,itemType){
       
       if(itemType == 'text'){
@@ -59,15 +66,21 @@
         delete raw.backgroundPosition;
         delete raw.backgroundSize;
       }
+
       
       var rtn = {};
+      
       for(var i in raw){
         if(attrs[i]){
           angular.extend(rtn, attrs[i](i,raw[i]));
+        }else if(ignores[i]){
+          ignores[i](rtn,raw[i]);
         }else{
-          rtn[i]=raw[i];
+          if(!rtn[i])rtn[i]=raw[i];
         }
       }
+      
+      
       return rtn;
     };
   });
