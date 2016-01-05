@@ -1,7 +1,7 @@
 app.factory('AnimateTypes',function(){
   
   var getAnimateStyles = function(animationName,animateConfig){
-    var styles = ['display:flex;'];
+    var styles = [];
     var prefixs = ['','-webkit'];
     angular.forEach(prefixs, function(prefix) {
       this.push(prefix+'animation:'
@@ -22,7 +22,7 @@ app.factory('AnimateTypes',function(){
     if(!animateConfig.offsetX && !animateConfig.offsetY 
         && !animateConfig.rotate && !animateConfig.scale) return rtn;
     rtn['transform'] = [];
-    rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+')px');
+    rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
 
     rtn['transform'].push('rotate('+(animateConfig.rotate||0)+'deg)');
 
@@ -67,8 +67,9 @@ app.factory('AnimateTypes',function(){
         var cssClass = this.getCssClass(item);
         var selector = '.'+cssClass;
         var rtn = [];
-        var styles = ['display:flex;'];
-        rtn.push(selector+'{display:none}');
+        var styles = ['visibility:visible;'
+                      ,'transition:visibility 0s linear '+(item.animate.delay)+'s;'];
+        rtn.push(selector+'{visibility:hidden}');
         Array.prototype.push.apply(styles,getAnimateStyles(cssClass,item.animate));
         
         rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
