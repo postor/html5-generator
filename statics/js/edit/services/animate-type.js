@@ -68,7 +68,8 @@ app.factory('AnimateTypes',function(){
         var selector = '.'+cssClass;
         var rtn = [];
         var styles = ['visibility:visible;'
-                      ,'transition:visibility 0s linear '+(item.animate.delay)+'s;'];
+                      ,'transition:visibility 0s linear '+(item.animate.delay)+'s;'
+                      ,'-webkit-transition:visibility 0s linear '+(item.animate.delay)+'s;'];
         rtn.push(selector+'{visibility:hidden}');
         Array.prototype.push.apply(styles,getAnimateStyles(cssClass,item.animate));
         
@@ -90,7 +91,8 @@ app.factory('AnimateTypes',function(){
         var selector = '.'+cssClass;
         var rtn = [];
         var styles = ['visibility:hidden;'
-                      ,'transition:visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s'];
+                      ,'transition:visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s;'
+                      ,'-webkit-transition:visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s;'];
         Array.prototype.push.apply(styles,getAnimateStyles(cssClass,item.animate));
         
         rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
