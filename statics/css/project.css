@@ -44,6 +44,7 @@ ul, li {
 
 .slide {
   position: relative;  
+  background-repeat: no-repeat;  
 }
 
 .slide > * {

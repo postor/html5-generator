@@ -224,6 +224,23 @@ app.get('/edit/:project',function(req, res){
   });
 });
 
+/**
+ * 删除逻辑
+ */
+app.get('/delete/:project',function(req, res){
+  q.fcall(libProject.removeProject,req.params.project)
+  .done(function(){
+    res.redirect('/user/'+req.user);
+  },function(err){
+    res.render('error',{
+          errormessage: err + ', please try again',
+          linkTitle:'try again!',
+          linkUri:req.url
+        }
+      );
+  });
+});
+
 
 /**
  * 获取项目数据

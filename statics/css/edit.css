@@ -42,6 +42,7 @@ h5-element .drag {
   height: 100%;
   position: absolute;
   overflow: hidden;
+  background-repeat: no-repeat;
 }
 
 .phone-screen h5-element {
