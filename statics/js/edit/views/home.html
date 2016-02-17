@@ -173,6 +173,18 @@
               <div class="input-group-addon">px</div>
             </div>
           </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">旋转</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.rotate">
+              <div class="input-group-addon">deg</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">缩放</label>
+            <div class="input-group">
+              <input class="form-control" type="number" ng-model="currentItem.animate.scale">
+              <div class="input-group-addon">倍</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
             <label class="form-label">重复次数</label>
             <label class="form-label">
               <input class="form-control" type="checkbox" ng-model="currentItem.animate.iterationInfinite">无限重复
