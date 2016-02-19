@@ -114,14 +114,26 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         animate:{
           enabled: false,
           type: 'fadeIn',
-          offsetX: 100,
-          offsetY: 100,
-          roate:0,
-          scale:1,
+          offsetX: 0,
+          offsetY: 0,
+          rotate: 0,
+          scale: 1,
           delay: 0,
           duration: 0.6,
           timingFunction: 'ease',
-          iterationCount: 1
+          iterationCount: 1,
+          opacity: 1
+        },
+        transition:{
+          enabled: false,
+          offsetX: 0,
+          offsetY: 0,
+          rotate: 0,
+          scale: 1,
+          delay: 0,
+          duration: 0.6,
+          timingFunction: 'ease',
+          opacity: 1
         }
       };
     };

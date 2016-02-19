@@ -10,7 +10,7 @@
       if(animateConfig.offsetX || animateConfig.offsetY)
         rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
 
-      if(typeof animateConfig.rotate !== 'undefined')
+      if(animateConfig.rotate)
         rtn['transform'].push('rotate('+(animateConfig.rotate||0)+'deg)');
       
       if(typeof animateConfig.scale !== 'undefined')
