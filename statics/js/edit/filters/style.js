@@ -59,6 +59,10 @@
     };
     
     return function(raw,itemType){
+      if(raw && raw.backgroundColorTransparent){
+        delete raw.backgroundColor;
+      }
+      
       
       if(itemType == 'text'){
         delete raw.backgroundImage;
