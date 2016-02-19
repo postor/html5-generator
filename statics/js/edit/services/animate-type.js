@@ -64,7 +64,8 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
         var rtn = [];
         var styles = {
           'visibility':'hidden',
-          'transition':'visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s'
+          'transition':'visibility 0s linear '
+            +(parseFloat(item.animate.delay||0)+parseFloat(item.animate.duration||0.6))+'s'
         };
         styles['-webkit-transition'] = styles['transition'];
         
