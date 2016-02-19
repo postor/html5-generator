@@ -3,7 +3,9 @@
     var getTransformStyles = function(animateConfig){
       var rtn = {};
       if(!animateConfig.offsetX && !animateConfig.offsetY 
-          && !animateConfig.rotate && !animateConfig.scale) return rtn;
+          && !animateConfig.rotate 
+          && (animateConfig.scale === 1 || typeof animateConfig.scale === 'undefined')) 
+        return rtn;
       rtn['transform'] = [];
       if(animateConfig.offsetX || animateConfig.offsetY)
         rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
