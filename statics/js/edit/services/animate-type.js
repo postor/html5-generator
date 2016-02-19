@@ -13,8 +13,12 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
   };
   
   var getKeyframeContent = function(animationName,configAsStart,animateConfig,startStyles,endStyles,middleStyleArr){
-    if(configAsStart)startStyles = angular.extend(startStyles||{}, getTransformStyles(animateConfig));
-    if(!configAsStart)endStyles = angular.extend(endStyles||{}, getTransformStyles(animateConfig));
+    var style = {};
+    if(typeof animateConfig.opacity !== 'undefined'){
+      style['opacity'] = animateConfig.opacity;
+    }
+    if(configAsStart)startStyles = angular.extend(startStyles||{}, style, getTransformStyles(animateConfig));
+    if(!configAsStart)endStyles = angular.extend(endStyles||{}, style, getTransformStyles(animateConfig));
     var rtn = [];
     var prefixs=['','-webkit-'];
     var middleStr = '';
