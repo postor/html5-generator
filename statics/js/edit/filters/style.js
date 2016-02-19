@@ -49,7 +49,8 @@
       backgroundColor:types.camelCase,
       borderWidth:types.camelCasePx,
       borderStyle:types.camelCase,
-      borderColor:types.camelCase
+      borderColor:types.camelCase,
+      zIndex:types.camelCase
     };
     
     var ignores = {
