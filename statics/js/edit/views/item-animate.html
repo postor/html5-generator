@@ -1,0 +1,66 @@
+      <ul>
+          <li>
+            <label class="form-label">
+              <input type="checkbox" ng-model="currentItem.animate.enabled">是否启用</label>
+              
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">动画类型</label>
+            <div class="input-group">
+              <select class="form-control" ng-model="currentItem.animate.type" 
+                ng-options="k as v.title for (k,v) in AnimateTypes"></select>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">动画延迟</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.delay">
+              <div class="input-group-addon">秒</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">持续时间</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.duration">
+              <div class="input-group-addon">秒</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">过度曲线</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.timingFunction">
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">上下偏移（正数表示从下方进入）</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.offsetY">
+              <div class="input-group-addon">px</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">左右偏移（正数表示从右侧进入）</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.offsetX">
+              <div class="input-group-addon">px</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">旋转</label>
+            <div class="input-group">
+              <input class="form-control" ng-model="currentItem.animate.rotate">
+              <div class="input-group-addon">deg</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">缩放</label>
+            <div class="input-group">
+              <input class="form-control" type="number" ng-model="currentItem.animate.scale">
+              <div class="input-group-addon">倍</div>
+            </div>
+          </li><li ng-if="currentItem.animate.enabled">
+            <label class="form-label">重复次数</label>
+            <label class="form-label">
+              <input class="form-control" type="checkbox" ng-model="currentItem.animate.iterationInfinite">无限重复
+            </label>
+            <label class="form-label">
+              <input type="checkbox" ng-model="currentItem.animate.direction" 
+              ng-true-value="'alternate'" ng-false-value="'normal'">往返播放</label>
+            <div class="input-group" ng-if="!currentItem.animate.iterationInfinite">
+              <input class="form-control" type="number" ng-model="currentItem.animate.iterationCount">
+              <div class="input-group-addon">次</div>
+            </div>
+          </li>
+        </ul>

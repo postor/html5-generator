@@ -1,5 +1,5 @@
-app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
-                           ,function($scope,idgen,$filter,$http,AnimateTypes
+app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','TransistionTypes','StyleCalc'
+                           ,function($scope,idgen,$filter,$http,AnimateTypes,TransistionTypes,StyleCalc
                                ){
 
     //初始化页面列表
@@ -137,7 +137,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
       var pageHtmls = [];
       var pageCss= [];
       var usedItems = [];
-      //pages
+      //pages html
       angular.forEach($scope.pages, function(page) {
         var itemHtmls=[];
         angular.forEach(page.items, function(itemId) {
@@ -150,24 +150,19 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes'
         },itemHtmls);        
         this.push(itemHtmls.join(''));
       }, pageHtmls);
-      //css for items
-      angular.forEach(usedItems, function(itemId) {
-        var item = $scope.items[itemId]
-        var obj = $filter('stylefilter')(item.style,item.type);
-        var itemCss = [];
-        angular.forEach(obj, function(v,k){
-          this.push(k+':'+v+';');
-        },itemCss);
-        this.push('.e'+item.id+'{'+itemCss.join('')+'}');
-      },pageCss);
+      
       //css for pages
       angular.forEach($scope.pages, function(page,pageIndex) {        
         var obj = $filter('stylefilter')(page.style,'image');
-        var itemCss = [];
-        angular.forEach(obj, function(v,k){
-          this.push(k+':'+v+';');
-        },itemCss);
-        this.push('.page'+(pageIndex+1)+'{'+itemCss.join('')+'}');
+        this.push(StyleCalc.style2css(obj,'.page'+(pageIndex+1)));
+        
+        //css for items
+        angular.forEach(page.items, function(itemId){
+          var c = TransistionTypes.getCssContent($scope.items[itemId],pageIndex);
+          console.log(c);
+          this.push(c);
+        },pageCss);
+        
       },pageCss);
       //css for animation
       angular.forEach($scope.pages, function(page,pageIndex) {   

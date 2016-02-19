@@ -1,37 +1,8 @@
-app.factory('AnimateTypes',function(){
+app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
   
-  var getAnimateStyles = function(animationName,animateConfig){
-    var styles = [];
-    var prefixs = ['','-webkit'];
-    angular.forEach(prefixs, function(prefix) {
-      this.push(prefix+'animation:'
-          +[
-            animationName,
-            (animateConfig.duration||0.6)+'s',
-            animateConfig.timingFunction||'ease',
-            (animateConfig.delay||0)+'s',
-            animateConfig.direction||'normal',
-            animateConfig.iterationInfinite?'infinite':animateConfig.iterationCount||1,
-           ].join(' ')+';');
-    },styles);
-    return styles;
-  };
+  var getAnimateStyles = StyleCalc.animation;
   
-  var getTransformStyles = function(animateConfig){
-    var rtn = {};
-    if(!animateConfig.offsetX && !animateConfig.offsetY 
-        && !animateConfig.rotate && !animateConfig.scale) return rtn;
-    rtn['transform'] = [];
-    rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
-
-    rtn['transform'].push('rotate('+(animateConfig.rotate||0)+'deg)');
-
-    rtn['transform'].push('scale('+(animateConfig.scale||1)+')');
-    
-    rtn['transform'] = rtn['transform'].join(' ');
-    rtn['-webkit-transform'] = rtn['transform'];
-    return rtn;
-  };
+  var getTransformStyles = StyleCalc.transform;
   
   var styleObj2string = function(obj){
     var rtn = '';
@@ -41,11 +12,13 @@ app.factory('AnimateTypes',function(){
     return rtn;
   };
   
-  var getKeyframeContent = function(animationName,configAsStart,animateConfig,startStyles,endStyles){
+  var getKeyframeContent = function(animationName,configAsStart,animateConfig,startStyles,endStyles,middleStyleArr){
     if(configAsStart)startStyles = angular.extend(startStyles||{}, getTransformStyles(animateConfig));
     if(!configAsStart)endStyles = angular.extend(endStyles||{}, getTransformStyles(animateConfig));
     var rtn = [];
     var prefixs=['','-webkit-'];
+    var middleStr = '';
+    
     angular.forEach(prefixs, function(prefix) {
       this.push("\n\r"+'@'+prefix+'keyframes '+animationName+'{'
         +'0%{'
@@ -59,7 +32,7 @@ app.factory('AnimateTypes',function(){
   
   return {
     fadeIn:{
-      title:'淡入',
+      title:'普通',
       getCssClass:function(item){
         return 'fadein'+item.id;
       },
@@ -67,22 +40,21 @@ app.factory('AnimateTypes',function(){
         var cssClass = this.getCssClass(item);
         var selector = '.'+cssClass;
         var rtn = [];
-        var styles = ['visibility:visible;'
-                      ,'transition:visibility 0s linear '+(item.animate.delay)+'s;'
-                      ,'-webkit-transition:visibility 0s linear '+(item.animate.delay)+'s;'];
-        rtn.push(selector+'{visibility:hidden}');
-        Array.prototype.push.apply(styles,getAnimateStyles(cssClass,item.animate));
+        var styles = {};
+
+        angular.extend(styles,getAnimateStyles(cssClass,item.animate));
         
-        rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
+        
+        rtn.push(StyleCalc.style2css(styles,'.p'+page+' '+selector));
         
         //动画
-        rtn.push(getKeyframeContent(cssClass,true,item.animate,{opacity:0},{}));
+        rtn.push(getKeyframeContent(cssClass,true,item.animate,{},{}));
         
         return rtn.join("\n\r");
       }
     },
     fadeOut:{
-      title:'淡出',
+      title:'完成后隐藏',
       getCssClass:function(item){
         return 'fadeOut'+item.id;
       },
@@ -90,17 +62,20 @@ app.factory('AnimateTypes',function(){
         var cssClass = this.getCssClass(item);
         var selector = '.'+cssClass;
         var rtn = [];
-        var styles = ['visibility:hidden;'
-                      ,'transition:visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s;'
-                      ,'-webkit-transition:visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s;'];
-        Array.prototype.push.apply(styles,getAnimateStyles(cssClass,item.animate));
+        var styles = {
+          'visibility':'hidden',
+          'transition':'visibility 0s linear '+(item.animate.delay+item.animate.duration)+'s'
+        };
+        styles['-webkit-transition'] = styles['transition'];
         
-        rtn.push('.p'+page+' '+selector+'{'+styles.join('')+'}');
+        angular.extend(styles,getAnimateStyles(cssClass,item.animate));        
+        
+        rtn.push(StyleCalc.style2css(styles,'.p'+page+' '+selector));
         //动画
         rtn.push(getKeyframeContent(cssClass,false,item.animate,{},{opacity:0}));
         return rtn.join("\n\r");
       }
-    },
+    }
     
   };
-});
+}]);

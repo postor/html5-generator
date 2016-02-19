@@ -10,9 +10,9 @@ app.directive("fileread", [function () {
                     scope.$apply(function () {
                         scope.fileread = loadEvent.target.result;
                     });
-                }
+                };
                 reader.readAsDataURL(changeEvent.target.files[0]);
             });
         }
-    }
+    };
 }]);

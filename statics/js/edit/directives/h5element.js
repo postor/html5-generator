@@ -34,6 +34,7 @@
         var last_style = {};
         $element.on('dragstart',function(e){
           flags.drag = !flags.resize;
+          console.log(flags);
           e.originalEvent.dataTransfer.setDragImage(document.createElement('span'), 0, 0);
           
           last_position = {

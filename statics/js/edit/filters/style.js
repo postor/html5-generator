@@ -71,6 +71,9 @@
       var rtn = {};
       
       for(var i in raw){
+        if(typeof raw[i] == 'undefined'){
+          delete raw[i];
+        }
         if(attrs[i]){
           angular.extend(rtn, attrs[i](i,raw[i]));
         }else if(ignores[i]){
