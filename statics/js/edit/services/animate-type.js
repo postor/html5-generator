@@ -48,7 +48,7 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
         rtn.push(StyleCalc.style2css(styles,'.p'+page+' '+selector));
         
         //动画
-        rtn.push(getKeyframeContent(cssClass,true,{},item.animate,{}));
+        rtn.push(getKeyframeContent(cssClass,false,item.animate,{},{}));
         
         return rtn.join("\n\r");
       }
