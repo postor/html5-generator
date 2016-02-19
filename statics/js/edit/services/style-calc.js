@@ -5,11 +5,14 @@
       if(!animateConfig.offsetX && !animateConfig.offsetY 
           && !animateConfig.rotate && !animateConfig.scale) return rtn;
       rtn['transform'] = [];
-      rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
+      if(animateConfig.offsetX || animateConfig.offsetY)
+        rtn['transform'].push('translate('+(animateConfig.offsetX||0)+'px,'+(animateConfig.offsetY||0)+'px)');
 
-      rtn['transform'].push('rotate('+(animateConfig.rotate||0)+'deg)');
-
-      rtn['transform'].push('scale('+(animateConfig.scale)+')');
+      if(typeof animateConfig.rotate !== 'undefined')
+        rtn['transform'].push('rotate('+(animateConfig.rotate||0)+'deg)');
+      
+      if(typeof animateConfig.scale !== 'undefined')
+        rtn['transform'].push('scale('+(animateConfig.scale)+')');
       
       rtn['transform'] = rtn['transform'].join(' ');
       rtn['-webkit-transform'] = rtn['transform'];
