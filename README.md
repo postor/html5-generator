@@ -34,3 +34,4 @@
 ## 效果 ##
 - 测试地址：[http://75.75.242.55/](http://75.75.242.55/)
 - 作品示例：[http://75.75.242.55/project/568c8b72c452f8f6444508c7](http://75.75.242.55/project/568c8b72c452f8f6444508c7)
+- 截图：[https://github.com/postor/h5generator/blob/master/screenshot.png](https://github.com/postor/h5generator/blob/master/screenshot.png)
