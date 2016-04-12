@@ -2,12 +2,12 @@
 一个快速制作移动宣传页面的工具
 
 ## 使用方法 ##
-直接打开[http://postor.tk/](http://postor.tk/)使用，或搭建自己的服务
+直接打开[http://75.75.242.55/](http://75.75.242.55/)使用，或搭建自己的服务
 
 提前安装：[nodejs](http://nodejs.org)，[mongodb](http://www.mongodb.org/)，git
 1. 下载代码
 
-> git clone https://github.com/postor/mobweb.git
+> git clone https://github.com/postor/h5generator.git
 
 2. 安装依赖
 
