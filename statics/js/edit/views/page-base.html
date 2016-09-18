@@ -1,0 +1,102 @@
+<ul class="list-group">
+  <li class="list-group-item">
+    <details>
+      <summary>背景色</summary>
+      <div class="input-group">
+        <label class="form-label">透明
+          <input type="checkbox" ng-model="currentPage.style.backgroundColorTransparent">
+        </label>
+        <input ng-if="!currentPage.style.backgroundColorTransparent" type="color" ng-model="currentPage.style.backgroundColor">
+      </div>
+    </details>                
+  </li>    
+  <li class="list-group-item">
+    <details>
+      <summary>背景图片</summary>
+      <div class="input-group">
+        <input class="form-control" type="file" fileread="currentPage.style.backgroundImage">
+      </div>
+      <img alt="" ng-src="{{currentPage.style.backgroundImage||'/statics/images/default.png'}}" style="width: 100px;height: 100px;">
+    </details>
+    
+  </li>
+  <li class="list-group-item" ng-if="currentPage.style.backgroundImage">
+    <label class="form-label">背景平铺
+      <input type="checkbox" ng-model="currentPage.style.backgroundRepeat"
+      ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+    </label>
+    
+  </li>
+  <li class="list-group-item" ng-if="currentPage.style.backgroundImage">
+    <label class="form-label">背景位置</label>
+    <div class="input-group">
+      <table>
+        <tr>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top left">↖            
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center top">↑             
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top right">↗         
+            </label>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center left">←            
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center">◎           
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center right">→   
+            </label>         
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom left">↙            
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center bottom">↓         
+            </label>
+          </td>
+          <td>
+            <label class="radio-inline">
+              <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom right">↘        
+            </label>
+          </td>
+        </tr>
+      </table>     
+    </div>
+  </li>
+  <li class="list-group-item" ng-if="currentPage.style.backgroundImage">
+    <label class="form-label">背景大小</label>
+    <div class="input-group">
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentPage.style.backgroundSize" value="initial">默认             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentPage.style.backgroundSize" value="cover">cover             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentPage.style.backgroundSize" value="contain">contain             
+      </label>
+    </div>
+  </li>
+</ul>

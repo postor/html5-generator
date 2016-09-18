@@ -4,142 +4,101 @@
   <div class="container">
     <div class="row">
 	    <div class="col-md-12">
-	      <input type="text" ng-model="info.title">
-	      <a class="btn btn-large btn-primary" ng-click="save()">保存</a>
-        <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>
+        <div class="page-header form-inline">
+          <input class="form-control" type="text" ng-model="info.title">
+          <a class="btn btn-large btn-primary" ng-click="save()">保存</a>
+          <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>
+        </div>
 	    </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-2">
-      <h2>选择分页</h2>
-      <ul>
-        <li ng-repeat="page in pages" ng-class="{active:currentPageIndex==$index}">
-          <label ng-click="setCurrentPage($index)">第{{$index+1}}</label>
-          <a class="btn" ng-click="removePage($index)">删除</a>
-        </li>
-      </ul>
-      <a class="btn btn-large" ng-click="newPage()">添加页面</a>
-    </div>
-    <div class="col-md-4">
-      <h2>当前编辑第{{currentPageIndex+1}}页</h2>
-      <div class="phone-box" ng-class="'p'+currentPageIndex" ng-style="{width: resolution.current.width,height:resolution.current.height}">
-        
-        <div class="phone-screen" ng-style="currentPage.style|stylefilter:'image'">
-          <h5-element ng-repeat="itemId in currentPage.items" 
-            item="items[itemId]" 
-            set-item="setCurrentItem(itemId)"
-            item-id="{{itemId}}"
-            resolution="resolution.current" 
-            ng-style="items[itemId].style|stylefilter:items[itemId].type"
-            ng-class="items[itemId]|animateClassName"
-            >
-          </h5-element>
-          
-        </div>
-      </div>
-    </div>
-    <div ng-hide="pageStates.pageTab=='items'" class="col-md-3">
-      <h2 ng-if="currentPageIndex<0">暂无页面</h2>
-      <div ng-if="currentPageIndex>=0">      
-	      <h2>第{{currentPageIndex+1}}页面属性
-	        <a ng-click="pageStates.pageTab='items'">查看元素</a></h2>
-	        <ul>
-		        <li>
-	            <label class="form-label">背景色</label>
-	            <div class="input-group">
-                <label class="form-label">透明
-                  <input type="checkbox" ng-model="currentPage.style.backgroundColorTransparent">
-                </label>
-	              <input ng-if="!currentPage.style.backgroundColorTransparent" type="color" ng-model="currentPage.style.backgroundColor">
-	            </div>
-	          </li>    
-		        <li>
-	            <label class="form-label">背景图片</label>
-	            <input class="form-control" type="file" fileread="currentPage.style.backgroundImage">
-	            <img alt="" ng-src="{{currentPage.style.backgroundImage}}" style="width: 100px;height: 100px;">
-	          </li>
-	          <li>
-	            <label class="form-label">背景平铺
-	              <input type="checkbox" ng-model="currentPage.style.backgroundRepeat"
-                ng-true-value="'repeat'" ng-false-value="'no-repeat'">
-	            </label>
-	            
-	          </li>
-	          <li>
-	            <label class="form-label">背景位置</label>
-	            <div class="input-group">
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center">◎ 居中           
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center top">↑             
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top right">↗         
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center right">→   
-	              </label>              
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom right">↘        
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center bottom">↓         
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="bottom left">↙            
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="center left">←            
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundPosition" value="top left">↖            
-	              </label>
-	            </div>
-	          </li>
-	          <li>
-	            <label class="form-label">背景大小</label>
-	            <div class="input-group">
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="initial">默认             
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="cover">cover             
-	              </label>
-	              <label class="radio-inline">
-	                <input type="radio" ng-model="currentPage.style.backgroundSize" value="contain">contain             
-	              </label>
-	            </div>
-	          </li>
-		      </ul>
+      <div class="panel panel-default">
+        <div class="panel-heading">选择分页</div>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="page in pages" ng-class="{active:currentPageIndex===$index}" ng-click="setCurrentPage($index)">     
+            <label class="label" ng-class="{'label-default':currentPageIndex!==$index}">第{{$index+1}}页</label>
+            <a class="badge" ng-click="removePage($index); $event.stopPropagation();">删除</a>
+          </li>
+        </ul>
+        <a class="btn btn-large" ng-click="newPage()">添加页面</a>
       </div>
       
     </div>
-    <div ng-if="pageStates.pageTab=='items'" class="col-md-3">
-      <h2 ng-if="currentPageIndex>=0">第{{currentPageIndex+1}}页下的元素
-        <a ng-click="pageStates.pageTab='page'">查看页属性</a></h2>
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          当前编辑第{{currentPageIndex+1}}页 
+          <select ng-options="k for k in resolution.deviceNames" ng-model="info.currentResolution"></select>
+        </div>
+        <div class="phone-box" ng-class="'p'+currentPageIndex" ng-style="resolution.devices[info.currentResolution]">
+        
+          <div class="phone-screen" ng-style="currentPage.style|stylefilter:'image'">
+            <h5-element ng-repeat="itemId in currentPage.items" 
+              item="items[itemId]" 
+              set-item="setCurrentItem(itemId)"
+              item-id="{{itemId}}"
+              resolution="resolution.devices[info.currentResolution]" 
+              ng-style="items[itemId].style|stylefilter:items[itemId].type"
+              ng-class="items[itemId]|animateClassName"
+              >
+            </h5-element>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
       <h2 ng-if="currentPageIndex<0">暂无页面</h2>
-      <ul>
-        <li ng-repeat="itemId in currentPage.items" ng-class="{active:currentItemIndex==itemId}">
-          <label ng-click="setCurrentItem(itemId)">第{{items[itemId].name}}</label>
-          <a class="btn" ng-click="removeItem($index)">删除</a>
-        </li>
-      </ul>
-      <a class="btn btn-large" ng-click="newItem()">添加元素</a>
+      <div ng-if="currentPageIndex>=0">              
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            第{{currentPageIndex+1}}页
+          </div>
+          <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active:pageStates.pageTab==='page'}">
+              <a ng-click="pageStates.pageTab='page'">页面属性</a>
+            </li>
+            <li role="presentation" ng-class="{active:pageStates.pageTab==='items'}">
+              <a ng-click="pageStates.pageTab='items'">查看元素</a>
+            </li>
+          </ul>          
+          <ng-include src="'/statics/js/edit/views/page-base.html'" ng-if="pageStates.pageTab==='page'" ></ng-include>
+          <div ng-if="pageStates.pageTab=='items'">
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="itemId in currentPage.items" ng-class="{active:currentItemIndex==itemId}">
+                <label ng-click="setCurrentItem(itemId)">第{{items[itemId].name}}</label>
+                <a class="badge" ng-click="removeItem($index)">删除</a>
+              </li>
+            </ul>
+            <a class="btn btn-large" ng-click="newItem()">添加元素</a>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="col-md-3" >
       <h2 ng-if="currentItemIndex<0">暂无元素</h2>
       <div ng-if="currentItemIndex>=0">
-        <h2>
-          <span>元素 {{currentItem.name}} 的样式</span>
-          <a ng-click="pageStates.itemTab='item'" ng-class="{active:pageStates.itemTab=='item'}">编辑样式</a>
-          <a ng-click="pageStates.itemTab='transistion'" ng-class="{active:pageStates.itemTab=='transistion'}">进入方式</a>
-          <a ng-click="pageStates.itemTab='animate'" ng-class="{active:pageStates.itemTab=='animate'}">编辑动画</a>
-        </h2>
-        <ng-include src="'/statics/js/edit/views/item-animate.html'" ng-if="pageStates.itemTab=='animate'" ></ng-include>
-        <ng-include src="'/statics/js/edit/views/item-transistion.html'" ng-if="pageStates.itemTab=='transistion'" ></ng-include>
-        <ng-include src="'/statics/js/edit/views/item-base.html'" ng-if="pageStates.itemTab=='item'" ></ng-include>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            元素 <input ng-model="currentItem.name"> 
+          </div>
+          <ul class="nav nav-tabs">
+            <li role="presentation" ng-class="{active:pageStates.itemTab==='item'}">
+              <a ng-click="pageStates.itemTab='item'">样式</a>
+            </li>
+            <li role="presentation" ng-class="{active:pageStates.itemTab==='transistion'}">
+              <a ng-click="pageStates.itemTab='transistion'">入场</a>
+            </li>
+            <li role="presentation" ng-class="{active:pageStates.itemTab==='animate'}">
+              <a ng-click="pageStates.itemTab='animate'">动画</a>
+            </li>
+          </ul>
+          <ng-include src="'/statics/js/edit/views/item-animate.html'" ng-if="pageStates.itemTab=='animate'" ></ng-include>
+          <ng-include src="'/statics/js/edit/views/item-transistion.html'" ng-if="pageStates.itemTab=='transistion'" ></ng-include>
+          <ng-include src="'/statics/js/edit/views/item-base.html'" ng-if="pageStates.itemTab=='item'" ></ng-include>
+        </div>
       </div>
     </div>
   </div>

@@ -9,13 +9,30 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         backgroundColorTransparent:true,
         backgroundRepeat:'no-repeat'
       }
-      //id:idgen.newId()
     }];
     
     $scope.pageStates = {pageTab:'page',itemTab:'item'};
     
     //初始化物品列表，注意是object
     $scope.items={};
+    
+    
+    //初始化机型
+    $scope.resolution = {};
+    $scope.resolution.devices = {
+      iphone6 : {height:667,width:375},
+      iphone4 : {height:480,width:320}
+    };
+    $scope.resolution.deviceNames = Object.keys($scope.resolution.devices);
+    
+    $scope.info = {};
+    $scope.info.currentResolution = $scope.info.currentResolution || 'iphone6';
+    
+    $scope.newId = function(){
+      var id = idgen.newId();
+      $scope.info.curId = id;
+      return id;
+    };
 
     $scope.email = $('#email').val();
     $scope.project = $('#project').val();
@@ -25,13 +42,17 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
       }else{
         $scope.info = rtn.data.data;
         $scope.info.title = $scope.info.title || '新的项目';
+        $scope.info.currentResolution = $scope.info.currentResolution || 'iphone6';
+        $scope.info.curId = $scope.info.curId || 0;
+        idgen.setId($scope.info.curId);
         $scope.pages = rtn.data.data.pages||[{
-          items:[],
-          //id:idgen.newId()
+          items:[]
         }];
+        
         $scope.items = rtn.data.data.items||{};  
         $scope.setCurrentPage(!!$scope.pages.length - 1);
-        idgen.setId(rtn.data.data.curId);
+        
+        
         $scope.$applyAsync();
       }
     },function(){
@@ -50,11 +71,6 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
     
     $scope.AnimateTypes = AnimateTypes;
     
-    //初始化机型
-    $scope.resolution = {};
-    $scope.resolution.iphone6 = {height:667,width:375};
-    $scope.resolution.iphone4 = {height:480,width:320};
-    $scope.resolution.current = $scope.resolution.iphone6;
     
     //设置当前原件
     $scope.setCurrentItem = function(index){
@@ -78,7 +94,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
     $scope.newPage = function(){
       $scope.pages.push({
         items:[],
-        id:idgen.newId()
+        id:$scope.newId()
       });
     };
     
@@ -92,7 +108,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
     
     //新增元件
     $scope.newItem = function(){
-      var itemId = idgen.newId();
+      var itemId = $scope.newId();
       $scope.pages[$scope.currentPageIndex].items.push(itemId);
       $scope.items[itemId]={
         id:itemId,
