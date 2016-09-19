@@ -1,0 +1,22 @@
+<h2 ng-if="currentItemIndex<0">暂无元素</h2>
+<div ng-if="currentItemIndex>=0">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      元素 <input ng-model="currentItem.name"> 
+    </div>
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{active:pageStates.itemTab==='item'}">
+        <a ng-click="pageStates.itemTab='item'">样式</a>
+      </li>
+      <li role="presentation" ng-class="{active:pageStates.itemTab==='transistion'}">
+        <a ng-click="pageStates.itemTab='transistion'">入场</a>
+      </li>
+      <li role="presentation" ng-class="{active:pageStates.itemTab==='animate'}">
+        <a ng-click="pageStates.itemTab='animate'">动画</a>
+      </li>
+    </ul>
+    <ng-include src="'/statics/js/edit/views/item-animate.html'" ng-if="pageStates.itemTab=='animate'" ></ng-include>
+    <ng-include src="'/statics/js/edit/views/item-transistion.html'" ng-if="pageStates.itemTab=='transistion'" ></ng-include>
+    <ng-include src="'/statics/js/edit/views/item-base.html'" ng-if="pageStates.itemTab=='item'" ></ng-include>
+  </div>
+</div>

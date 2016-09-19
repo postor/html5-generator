@@ -1,0 +1,18 @@
+<h2 ng-if="currentPageIndex<0">暂无页面</h2>
+<div ng-if="currentPageIndex>=0">              
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      第{{currentPageIndex+1}}页
+    </div>
+    <ul class="nav nav-tabs">
+      <li role="presentation" ng-class="{active:pageStates.pageTab==='page'}">
+        <a ng-click="pageStates.pageTab='page'">页面属性</a>
+      </li>
+      <li role="presentation" ng-class="{active:pageStates.pageTab==='items'}">
+        <a ng-click="pageStates.pageTab='items'">查看元素</a>
+      </li>
+    </ul>          
+    <ng-include src="'/statics/js/edit/views/page-base.html'" ng-if="pageStates.pageTab==='page'" ></ng-include>
+    <ng-include src="'/statics/js/edit/views/page-items.html'" ng-if="pageStates.pageTab==='items'" ></ng-include>
+  </div>
+</div>
