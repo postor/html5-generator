@@ -1,0 +1,66 @@
+<ul class="list-group">
+  <li class="list-group-item">
+    <label class="form-label">类型</label>
+    <select class="form-control" ng-model="currentItem.type" 
+      ng-options="k as v for (k,v) in ItemTypes"></select>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">上偏移</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.top">
+      <div class="input-group-addon">%</div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">左偏移</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.left">
+      <div class="input-group-addon">%</div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">宽度</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.width">
+      <div class="input-group-addon">%</div>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">高度</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.height">
+      <div class="input-group-addon">%</div>
+    </div>
+  </li>  
+  <li class="list-group-item">
+    <label class="form-label">背景色</label>
+    <div class="input-group">
+      <label class="form-label">透明
+        <input type="checkbox" ng-model="currentItem.style.backgroundColorTransparent">
+      </label>
+      <input ng-if="!currentItem.style.backgroundColorTransparent" type="color" ng-model="currentItem.style.backgroundColor">
+    </div>
+  </li>          
+  <li class="list-group-item">
+    <label class="form-label">边框颜色</label>
+    <div class="input-group">
+      <input type="color" ng-model="currentItem.style.borderColor">
+    </div>
+    <label class="form-label">边框宽度</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.borderWidth">
+      <div class="input-group-addon">px</div>
+    </div>
+    <label class="form-label">边框类型</label>
+    <div class="input-group">
+      <select class="form-control" ng-model="currentItem.style.borderStyle" 
+      ng-options="k as v for (k,v) in BorderStyles"></select>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">层次</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.zIndex">
+    </div>
+  </li> 
+</ul>

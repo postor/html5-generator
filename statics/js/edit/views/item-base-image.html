@@ -1,0 +1,34 @@
+<ul class="list-group">         
+  <li class="list-group-item">
+    <label class="form-label">选择图片</label>
+    <input class="form-control" type="file" fileread="currentItem.style.backgroundImage">
+    <img alt="" ng-src="{{currentItem.style.backgroundImage||'/statics/images/default.png'}}" style="width: 100px;height: 100px;">
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">背景平铺
+      <input type="checkbox" ng-model="currentItem.style.backgroundRepeat"
+      ng-true-value="'repeat'" ng-false-value="'no-repeat'">
+    </label>
+    
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">背景位置</label>
+    <div class="input-group">
+      <bg-img-pos bgpos="currentItem.style.backgroundPosition"></bg-img-pos> 
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">背景大小</label>
+    <div class="input-group">
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.backgroundSize" value="initial">默认             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.backgroundSize" value="cover">cover             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.backgroundSize" value="contain">contain             
+      </label>
+    </div>
+  </li>
+</ul>

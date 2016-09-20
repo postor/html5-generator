@@ -1,0 +1,45 @@
+<ul class="list-group">         
+  <li class="list-group-item">
+    <label class="form-label">文本</label>
+    <input class="form-control" ng-model="currentItem.text">
+  </li>          
+  <li class="list-group-item">
+    <label class="form-label">链接地址</label>
+    <input class="form-control" ng-model="currentItem.href">
+  </li>      
+  <li class="list-group-item">
+    <label class="form-label">字号</label>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.fontSize">
+      <div class="input-group-addon">px</div>
+    </div>
+  </li>           
+  <li class="list-group-item">
+    <label class="form-label">水平对齐</label>
+    <div class="input-group">
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.justifyContent" value="flex-start">←              
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.justifyContent" value="center">¤             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.justifyContent" value="flex-end">→             
+      </label>
+    </div>
+  </li>
+  <li class="list-group-item">
+    <label class="form-label">垂直对齐</label>
+    <div class="input-group">
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.alignItems" value="flex-start">↑             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.alignItems" value="center">¤             
+      </label>
+      <label class="radio-inline">
+        <input type="radio" ng-model="currentItem.style.alignItems" value="flex-end">↓             
+      </label>
+    </div>
+  </li>
+</ul>
