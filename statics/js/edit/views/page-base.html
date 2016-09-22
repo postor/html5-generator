@@ -17,6 +17,7 @@
         <input class="form-control" type="file" fileread="currentPage.style.backgroundImage">
       </div>
       <img alt="" ng-src="{{currentPage.style.backgroundImage||'/statics/images/default.png'}}" style="width: 100px;height: 100px;">
+      <a class="btn btn-default" ng-click="currentPage.style.backgroundImage=''">移除</a>
     </details>
     
   </li>

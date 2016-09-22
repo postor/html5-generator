@@ -52,6 +52,7 @@
               (animateConfig.delay||0)+'s',
               animateConfig.direction||'normal',
               animateConfig.iterationInfinite?'infinite':animateConfig.iterationCount||1,
+              animateConfig.type === 'fadeOut'?'forwards':''
              ].join(' ');
       styles['-webkit-animation'] = styles['animation'];
       return styles;

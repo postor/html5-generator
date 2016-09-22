@@ -58,6 +58,23 @@
     </div>
   </li>
   <li class="list-group-item">
+    <label class="form-label">圆角</label>
+    <div class="input-group">
+      <label class="form-label">
+        <input type="radio" ng-model="currentItem.style.borderRadiusType" ng-value="'px'">
+        像素（px）
+      </label>
+      <label class="form-label">
+        <input type="radio" ng-model="currentItem.style.borderRadiusType" ng-value="'%'">
+        比例（%）
+      </label>      
+    </div>
+    <div class="input-group">
+      <input class="form-control" type="number" ng-model="currentItem.style.borderRadiusValue">
+      <div class="input-group-addon">{{currentItem.style.borderRadiusType}}</div>
+    </div>
+  </li> 
+  <li class="list-group-item">
     <label class="form-label">层次</label>
     <div class="input-group">
       <input class="form-control" type="number" ng-model="currentItem.style.zIndex">

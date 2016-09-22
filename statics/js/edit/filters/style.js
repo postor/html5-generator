@@ -66,6 +66,14 @@
           }
         },fontFamilyBackup:function(rtn,v){
           if(v)rtn['font-family'] = rtn['font-family']?rtn['font-family']+','+v:v;
+        },borderRadiusType:function(rtn,v){
+          if(v)rtn['border-radius'] = v;
+        },borderRadiusValue:function(rtn,v){
+          if(v){
+            rtn['border-radius']=v+rtn['border-radius'];
+          }else{
+            delete rtn['border-radius'];
+          };
         }
     };
     

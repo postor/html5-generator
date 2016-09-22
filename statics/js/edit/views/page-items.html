@@ -1,6 +1,6 @@
 <ul class="list-group">
   <li class="list-group-item" ng-repeat="itemId in currentPage.items" ng-class="{active:currentItemIndex==itemId}" ng-click="setCurrentItem(itemId)">
-    <label>第{{items[itemId].name}}</label>
+    <label>{{items[itemId].name}}</label>
     <a class="badge" ng-click="removeItem($index);$event.stopPropagation();">删除</a>
   </li>
 </ul>

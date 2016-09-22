@@ -58,7 +58,7 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
       }
     },
     fadeOut:{
-      title:'完成后隐藏',
+      title:'保持完成后状态',
       getCssClass:function(item){
         return 'fadeOut'+item.id;
       },
@@ -67,11 +67,7 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
         var selector = '.'+cssClass;
         var rtn = [];
         var styles = {
-          'visibility':'hidden',
-          'transition':'visibility 0s linear '
-            +(parseFloat(item.animate.delay||0)+parseFloat(item.animate.duration||0.6))+'s'
         };
-        styles['-webkit-transition'] = styles['transition'];
         
         angular.extend(styles,getAnimateStyles(cssClass,item.animate));        
         
