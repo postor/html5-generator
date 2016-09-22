@@ -1,5 +1,5 @@
 
-  app.filter('stylefilter',function(){
+  app.filter('stylefilter',['LinkManage',function(LinkManage){
     
     var types = {
       percent:function(i,v){
@@ -40,6 +40,8 @@
       width:types.percent,
       height:types.percent,
       fontSize:types.camelCasePx,
+      fontWeight:types.camelCase,
+      fontStyle:types.camelCase,
       backgroundImage:types.camelCaseUrl,
       backgroundRepeat:types.camelCase,
       backgroundPosition:types.camelCase,
@@ -56,6 +58,14 @@
     var ignores = {
         backgroundColorTransparent:function(rtn,v){
           if(v)rtn['background-color'] = 'transparent';
+        },fontFamilyGoogle:function(rtn,v){
+          if(v){
+            rtn['font-family'] = rtn['font-family']?v+','+rtn['font-family']:v;
+            var fontUrl = 'https://fonts.googleapis.com/css?family='+v.replace(' ','+');
+            LinkManage.addLink(fontUrl);
+          }
+        },fontFamilyBackup:function(rtn,v){
+          if(v)rtn['font-family'] = rtn['font-family']?rtn['font-family']+','+v:v;
         }
     };
     
@@ -64,19 +74,17 @@
         delete raw.backgroundColor;
       }
       
-      
       if(itemType == 'text'){
         delete raw.backgroundImage;
         delete raw.backgroundRepeat;
         delete raw.backgroundPosition;
         delete raw.backgroundSize;
       }
-
       
       var rtn = {};
       
       for(var i in raw){
-        if(typeof raw[i] == 'undefined'){
+        if(typeof raw[i] === 'undefined'){
           delete raw[i];
         }
         if(attrs[i]){
@@ -87,8 +95,6 @@
           if(!rtn[i])rtn[i]=raw[i];
         }
       }
-      
-      
       return rtn;
     };
-  });
+  }]);

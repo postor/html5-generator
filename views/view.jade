@@ -6,6 +6,9 @@ html(lang="en")
     title= pageTitle
     
     link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
+    - var i = 0
+    while i++ < links.length
+      link(rel="stylesheet",type="text/css",href=links[i] )
     style.
       #scroller{
         height: #{pages.length*100}%

@@ -1,5 +1,5 @@
-app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','TransistionTypes','StyleCalc'
-                           ,function($scope,idgen,$filter,$http,AnimateTypes,TransistionTypes,StyleCalc
+app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','TransistionTypes','StyleCalc','LinkManage'
+                           ,function($scope,idgen,$filter,$http,AnimateTypes,TransistionTypes,StyleCalc,LinkManage
                                ){
 
     //初始化页面列表
@@ -28,12 +28,20 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
     $scope.info = {};
     $scope.info.currentResolution = $scope.info.currentResolution || 'iphone6';
     
+    //初始化外部样式表（字体）
+    $scope.links = [];
+    $scope.updateLinks = function(){
+      $scope.links = LinkManage.getLinks();
+    }
+
+    //id申请
     $scope.newId = function(){
       var id = idgen.newId();
       $scope.info.curId = id;
       return id;
     };
 
+    //基本信息
     $scope.email = $('#email').val();
     $scope.project = $('#project').val();
     $http.get('/json/'+$scope.project).then(function(rtn) {
@@ -53,7 +61,9 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         $scope.setCurrentPage(!!$scope.pages.length - 1);
         
         
-        $scope.$applyAsync();
+        $scope.$applyAsync(function(scope){
+          scope.updateLinks();
+        });
       }
     },function(){
       alert('网络异常！');
@@ -165,6 +175,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
       var pageHtmls = [];
       var pageCss= [];
       var usedItems = [];
+      LinkManage.clearLinks();
       //pages html
       angular.forEach($scope.pages, function(page) {
         var itemHtmls=[];
@@ -212,6 +223,7 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         pageHtmls:pageHtmls,
         curId:idgen.getId(),
         css:css,
+        links:LinkManage.getLinks(),
         id:$scope.project
       })).then(function(rtn) {
         alert('保存成功')

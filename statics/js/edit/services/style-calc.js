@@ -1,4 +1,4 @@
-  //用于生成唯一id的服务
+  //用于生成样式的服务
   app.factory('StyleCalc',function(){
     var getTransformStyles = function(animateConfig){
       var rtn = {};
