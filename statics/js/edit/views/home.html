@@ -9,7 +9,7 @@
         <div class="page-header form-inline">
           <input class="form-control" type="text" ng-model="info.title">
           <a class="btn btn-large btn-primary" ng-click="save()">保存</a>
-          <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>
+          <a class="btn btn-large" ng-href="/user/{{email}}">返回</a>          
         </div>
 	    </div>
     </div>
@@ -33,6 +33,7 @@
         <div class="panel-heading">
           当前编辑第{{currentPageIndex+1}}页 
           <select ng-options="k for k in resolution.deviceNames" ng-model="info.currentResolution"></select>
+          <a class="btn btn-large btn-primary pull-right" ng-href="/project/{{project}}" target="_blank">预览</a>
         </div>
         <div class="phone-box" ng-class="'p'+currentPageIndex" ng-style="resolution.devices[info.currentResolution]">
         
