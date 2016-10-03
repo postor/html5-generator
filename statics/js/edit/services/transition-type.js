@@ -20,7 +20,7 @@ app.factory('TransistionTypes',['StyleCalc','$filter',function(StyleCalc,$filter
         var transition = getTransistionStyles(item.transition);
         var initStyle = $filter('stylefilter')({opacity:item.transition.opacity});
         var targetStyle = $filter('stylefilter')(item.style);
-        initStyle = angular.extend(targetStyle,initStyle,initTransform,transition);
+        initStyle = angular.extend(targetStyle,initStyle,initTransform);
         
         var pageTransform = StyleCalc.transform(item.style);
         if(angular.equals({}, pageTransform)){
@@ -38,7 +38,7 @@ app.factory('TransistionTypes',['StyleCalc','$filter',function(StyleCalc,$filter
             addition[i] = targetStyle[i];
           }
         }
-        var pageStyle = angular.extend(addition,pageTransform);
+        var pageStyle = angular.extend(addition,pageTransform,transition);
         
         return StyleCalc.style2css(initStyle,'.e'+item.id)+"\n"
           +StyleCalc.style2css(pageStyle,'.p'+pageId+' .e'+item.id);
