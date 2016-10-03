@@ -13,7 +13,6 @@ var dump = function(i){
 var app = express();
 var config = require('./config');
 
-
 //配置路由，静态路径，错误处理
 app.use('/statics',express.static(__dirname+'/statics'));
 app.use('/favicon.ico',express.static(__dirname+'/favicon.ico'));
@@ -266,6 +265,52 @@ app.post('/json/:project',function(req, res){
   },function(err){
     res.end(JSON.stringify({error:err}, null, 2));
   });
+});
+
+/**
+ * 上传文件
+ */
+var fileUpload = require('express-fileupload');
+app.use(fileUpload());
+app.post('/upload', function(req, res) {  
+  res.setHeader('Content-Type', 'application/json');
+
+  if (!req.files) {
+    res.end(JSON.stringify({error:'No files were uploaded.'}));
+    return;
+  }
+
+  var fx = require('mkdir-recursive'),
+  path = require('path'),
+  d = new Date(),
+  targetPath = path.join('statics','uploaded',''+d.getFullYear(),''+(d.getMonth()+1),''+d.getDate());
+  
+  fx.mkdir(path.join(__dirname,targetPath), function(err) {
+    if(err){
+      res.end(JSON.stringify({error:'can not save file.'}));
+    }
+
+    var imgFile = req.files.img,
+    crypto = require('crypto'),
+    fileMd5 = crypto.createHash('md5').update(imgFile.data).digest("hex");
+    fileExt = path.extname(imgFile.name).toLowerCase(),
+    allowExts = ['.jpg','.png','.gif','.webp','.bmp'];
+
+    if(!(allowExts.indexOf(fileExt)>=0)){
+      res.end(JSON.stringify({error:'bad format, plase use:'+allowExts.join(',')}));
+    }
+
+    var fullPath = path.join(targetPath,fileMd5+fileExt);
+    imgFile.mv(path.join(__dirname,fullPath), function(err) {
+      if (err) {
+        res.end(JSON.stringify({error:err}));
+      } else {
+        res.end(JSON.stringify({url:'/'+fullPath.replace(/\\/g,'/')}));
+      }
+    });
+  });
+
+  
 });
 
 //启动服务
