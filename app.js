@@ -294,7 +294,7 @@ app.post('/upload', function(req, res) {
     crypto = require('crypto'),
     fileMd5 = crypto.createHash('md5').update(imgFile.data).digest("hex");
     fileExt = path.extname(imgFile.name).toLowerCase(),
-    allowExts = ['.jpg','.png','.gif','.webp','.bmp'];
+    allowExts = ['.jpg','.png','.gif','.webp','.bmp','.svg'];
 
     if(!(allowExts.indexOf(fileExt)>=0)){
       res.end(JSON.stringify({error:'bad format, plase use:'+allowExts.join(',')}));
