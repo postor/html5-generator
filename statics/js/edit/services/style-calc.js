@@ -55,6 +55,8 @@
               animateConfig.type === 'fadeOut'?'forwards':''
              ].join(' ');
       styles['-webkit-animation'] = styles['animation'];
+      delete styles['animation'];
+      styles['animation'] = styles['-webkit-animation'];
       return styles;
     };
     
