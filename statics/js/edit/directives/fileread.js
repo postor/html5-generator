@@ -7,7 +7,7 @@ app.directive("fileread", [function () {
             element.bind("change", function (changeEvent) {
                 if(changeEvent.target.files&&changeEvent.target.files.length){
                     var file = changeEvent.target.files[0];
-                    if(file.size && file.size<8*1024){
+                    if(file.size && file.size<1024){
                         useDataUri(file);
                     }else{
                         useUpload(file);
