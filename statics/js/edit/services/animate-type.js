@@ -4,10 +4,17 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
   
   var getTransformStyles = StyleCalc.transform;
   
-  var styleObj2string = function(obj){
-    var rtn = '';
+  var styleObj2string = function(obj,prifix){
+    var rtn = '',prifixAttrs=['transform'];
     angular.forEach(obj,function(v,k){
-      rtn+=k+':'+v+';';
+      var drop = false;
+      angular.forEach(prifixAttrs,function(it){
+        if(k.indexOf(it)>=0){
+          if(k!==prifix+it) drop = true;
+        }
+      });
+
+      if(!drop) rtn+=k+':'+v+';';
     });
     return rtn;
   };
@@ -26,9 +33,9 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
     angular.forEach(prefixs, function(prefix) {
       this.push("\n\r"+'@'+prefix+'keyframes '+animationName+'{'
         +'0%{'
-          +styleObj2string(startStyles||{})
+          +styleObj2string(startStyles||{},prefix)
         +'}100%{'
-          +styleObj2string(endStyles||{})
+          +styleObj2string(endStyles||{},prefix)
       +'}}');
     },rtn);
     return rtn.join();
