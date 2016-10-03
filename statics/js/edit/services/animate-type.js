@@ -27,7 +27,7 @@ app.factory('AnimateTypes',['StyleCalc',function(StyleCalc){
     if(configAsStart)startStyles = angular.extend(startStyles||{}, style, getTransformStyles(animateConfig));
     if(!configAsStart)endStyles = angular.extend(endStyles||{}, style, getTransformStyles(animateConfig));
     var rtn = [];
-    var prefixs=['','-webkit-'];
+    var prefixs=['-webkit-',''];
     var middleStr = '';
     
     angular.forEach(prefixs, function(prefix) {
