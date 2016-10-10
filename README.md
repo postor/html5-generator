@@ -7,7 +7,7 @@
 提前安装：[nodejs](http://nodejs.org)，[mongodb](http://www.mongodb.org/)，git
 1. 下载代码
 
-> git clone https://github.com/postor/h5generator.git
+> git clone https://github.com/postor/html5-generator.git
 
 2. 安装依赖
 
