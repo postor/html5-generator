@@ -6,6 +6,7 @@
   "dependencies": {
     "body-parser": "^1.12.2",
     "bson": "^0.3.1",
+    "camo": "^0.12.3",
     "cookie-parser": "^1.3.4",
     "cookieparser": "^0.1.0",
     "express": "^4.12.3",
@@ -17,6 +18,7 @@
     "mkdirp": "^0.5.1",
     "mongodb": "^2.0.25",
     "mongoose": "^4.0.1",
+    "nedb": "^1.8.0",
     "q": "^1.3.0",
     "universal-path": "^0.1.0"
   },

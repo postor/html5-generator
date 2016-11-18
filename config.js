@@ -1,8 +1,6 @@
+var path = require('path')
 
-exports.mongodb = {
-		host:'10.96.153.220',
-		project:'mobweb'
-	};
+exports.dbURI = 'nedb//'+path.join(__dirname,'app.db');
 
 exports.baseSecret = 'postor#gmail#com';
 

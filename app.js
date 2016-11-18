@@ -12,6 +12,7 @@ var dump = function(i){
 
 var app = express();
 var config = require('./config');
+require('camo').connect(config.dbURI)
 
 //配置路由，静态路径，错误处理
 app.use('/statics',express.static(__dirname+'/statics'));
