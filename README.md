@@ -16,7 +16,7 @@
 
 > npm install
 
-3. 修改配置 | modify config (eg: mongodb)
+3. 修改配置 | modify config (eg: dbURI)
 
 > vi config.js
 
