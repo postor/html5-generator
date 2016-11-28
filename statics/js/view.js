@@ -9,6 +9,7 @@ function loaded () {
     snapSpeed: 400,
     zoom: false
   });
+
   $body = $('body');
   myScroll.on('scrollEnd', function () {
     $body.attr('class','p'+(this.currentPage.pageY));
@@ -25,3 +26,7 @@ $('[data-goto]').on('click touchstart',function(e){
     myScroll.goToPage(0,parseInt($(e.srcElement).attr('data-goto')));
   },1);
 });
+
+$(document).ready(function(){
+  loaded()
+})

@@ -2,6 +2,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var util = require('util');
+var fs = require('fs')
 var libUser = require('./lib/User');
 var libProject = require('./lib/project');
 
@@ -38,10 +39,10 @@ app.use(function(req, res, next){
 
 //登陆
 app.get('/login',function(req, res){
-    res.render('login');
+  res.render('login');
 });
 app.post('/login',function(req, res){
-    libUser.checkUserPassword(req.body.email,req.body.password)
+  libUser.checkUserPassword(req.body.email,req.body.password)
     .then(function(){
       libUser.setLoinCookie(res,req.body.email);
       res.redirect('/user/' + req.body.email);
@@ -67,9 +68,9 @@ app.post('/regist',function(req, res){
 });
 
 //首页
-app.get('/',function(req, res, next){  
+app.get('/',function(req, res, next){
   console.log(':home:');
-    res.render('index');
+  res.render('index');
 });
 
 //以下页面需要登录，用户，编辑
@@ -83,9 +84,9 @@ app.use(function(req, res, next){
         linkTitle:'go to login page',
         linkUri:'/login'
       }
-    );  
+    );
   }else{
-    next();  
+    next();
   }
 });
 
@@ -111,18 +112,18 @@ app.get('/user/:user',function(req, res, next){
 
   if(req.user === req.params.user+''){
     libProject.getUserProjects(req.user)
-    .then(function(resultprojects){
-      res.render('user',{
+      .then(function(resultprojects){
+        res.render('user',{
+            user:req.params.user,
+            projects: resultprojects
+          }
+        );
+      },function(err){
+        res.render('user',{
           user:req.params.user,
-          projects: resultprojects
-        }
-      );
-    },function(err){
-      res.render('user',{
-        user:req.params.user,
-        errormessage: 'failed to load projects'+err
+          errormessage: 'failed to load projects'+err
+        });
       });
-    });
   }else{
     res.render('error',{
         errormessage:'this is '+req.params.user+'\'s page',
@@ -131,21 +132,21 @@ app.get('/user/:user',function(req, res, next){
       }
     );
   }
-  
+
 });
 
 //项目页
 app.get('/project/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
-  .then(function(result){
-    console.log(result)
-    result.pageCount = result.pageCount||1;
-    res.render('project',{project:result});
-  },function(err){
-    res.render('error',{
-      errormessage:'error:'+err
+    .then(function(result){
+
+      result.pageCount = result.pageCount||1;
+      res.render('project',{project:result});
+    },function(err){
+      res.render('error',{
+        errormessage:'error:'+err
+      });
     });
-  });
 });
 
 //编辑页面
@@ -154,72 +155,72 @@ app.get('/edit',function(req, res){
   var ready = function(template){
     //存入一个
     libProject.newUserProject(req.user,template)
-    .then(function(result){
-      res.redirect('/edit/' + result._id);
-    },function(err){
-      res.render('error',{
+      .then(function(result){
+        res.redirect('/edit/' + result._id);
+      },function(err){
+        res.render('error',{
             errormessage:'db error, please try again',
             linkTitle:'try again!',
             linkUri:'/edit'
           }
         );
-    });
+      });
   };
 
   //如果有模板
   var templid = req.params.template || req.query['template'];
   if(templid){
     libProject.loadProject(templid)
-    .then(function(result){
-      if(!result){
-        res.render('error',{
-            errormessage:'template project not found',
-            linkTitle:'create a empty one',
-            linkUri:'/edit'
-          }
-        );
-      }else{
-        ready(result);
-      }  
-    },function(err){
+      .then(function(result){
+        if(!result){
+          res.render('error',{
+              errormessage:'template project not found',
+              linkTitle:'create a empty one',
+              linkUri:'/edit'
+            }
+          );
+        }else{
+          ready(result);
+        }
+      },function(err){
         res.render('error',{
             errormessage: err+', please try again',
             linkTitle:'try again!',
             linkUri:req.url
           }
         );
-    });
+      });
   }else{
     ready();
   }
-  
+
 });
 /**
  * 编辑页面
  */
 app.get('/edit/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
-  .then(function(result){
-    if(!result){
-      res.render('error',{
-          errormessage:'project not found',
-          linkTitle:'show my projects',
-          linkUri:'/user/'+req.user
-        }
-      );
-    }else{
-      res.render('edit',{
+    .then(function(result){
+      if(!result){
+        res.render('error',{
+            errormessage:'project not found',
+            linkTitle:'show my projects',
+            linkUri:'/user/'+req.user
+          }
+        );
+      }else{
+        res.render('edit',{
           project:result
         });
-    }
-  },function(err){
-    res.render('error',{
+      }
+    },function(err){
+      res.render('error',{
           errormessage: err + ', please try again',
           linkTitle:'try again!',
           linkUri:req.url
         }
       );
-  });
+    });
 });
 
 /**
@@ -227,16 +228,16 @@ app.get('/edit/:project',function(req, res){
  */
 app.get('/delete/:project',function(req, res){
   libProject.removeProject(req.params.project[0])
-  .then(function(){
-    res.redirect('/user/'+req.user);
-  },function(err){
-    res.render('error',{
+    .then(function(){
+      res.redirect('/user/'+req.user);
+    },function(err){
+      res.render('error',{
           errormessage: err + ', please try again',
           linkTitle:'try again!',
           linkUri:req.url
         }
       );
-  });
+    });
 });
 
 
@@ -246,11 +247,11 @@ app.get('/delete/:project',function(req, res){
 app.get('/json/:project',function(req, res){
   res.setHeader('Content-Type', 'application/json');
   libProject.loadProject(req.params.project[0])
-  .then(function(result){
-    res.end(JSON.stringify({error:0,data:result}, null, 2));    
-  },function(err){
-    res.end(JSON.stringify({error:err}, null, 2));    
-  });
+    .then(function(result){
+      res.end(JSON.stringify({error:0,data:result}, null, 2));
+    },function(err){
+      res.end(JSON.stringify({error:err}, null, 2));
+    });
 });
 
 /**
@@ -259,11 +260,52 @@ app.get('/json/:project',function(req, res){
 app.post('/json/:project',function(req, res){
   res.setHeader('Content-Type', 'application/json');
   libProject.updateProject(req.body)
-  .then(function(result){
-    res.end(JSON.stringify({error:0,data:result}, null, 2));
-  },function(err){
-    res.end(JSON.stringify({error:err}, null, 2));
-  });
+    .then(function(result){
+      res.end(JSON.stringify({error:0,data:result}, null, 2));
+    },function(err){
+      res.end(JSON.stringify({error:err}, null, 2));
+    });
+});
+
+//下载页
+app.get('/download/:project',function(req, res){
+  libProject.loadProject(req.params.project[0])
+    .then(function(result){
+      result.pageCount = result.pageCount||1;
+      res.render('project',{project:result},function(err,viewHtml){
+        var archiver = require('archiver');
+        var archive = archiver.create('zip', {});
+        res.attachment('source.zip');
+
+        archive.pipe(res)
+        //js\css
+        viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
+          var filePath = match.substring(match.indexOf('"')+2,match.lastIndexOf('"'))
+          archive.file(filePath,{name:filePath})
+          return match.replace('/'+filePath,filePath)
+        })
+        //pictures
+        viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
+          var filePath = match.substr(5,match.length-6)
+          archive.file(filePath,{name:filePath})
+          return match.replace('/'+filePath,filePath)
+        })
+
+        archive.append(string2stream(viewHtml), { name: 'index.html' });
+        archive.finalize();
+      });
+      function string2stream(str){
+        var stream = new require('stream').Readable()
+        stream._read = function(){}
+        stream.push(str)
+        stream.push(null)
+        return stream
+      }
+    },function(err){
+      res.render('error',{
+        errormessage:'error:'+err
+      });
+    });
 });
 
 /**
@@ -271,7 +313,7 @@ app.post('/json/:project',function(req, res){
  */
 var fileUpload = require('express-fileupload');
 app.use(fileUpload());
-app.post('/upload', function(req, res) {  
+app.post('/upload', function(req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   if (!req.files) {
@@ -280,20 +322,20 @@ app.post('/upload', function(req, res) {
   }
 
   var fx = require('mkdir-recursive'),
-  path = require('path'),
-  d = new Date(),
-  targetPath = path.join('statics','uploaded',''+d.getFullYear(),''+(d.getMonth()+1),''+d.getDate());
-  
+    path = require('path'),
+    d = new Date(),
+    targetPath = path.join('statics','uploaded',''+d.getFullYear(),''+(d.getMonth()+1),''+d.getDate());
+
   fx.mkdir(path.join(__dirname,targetPath), function(err) {
     if(err){
       res.end(JSON.stringify({error:'can not save file.'}));
     }
 
     var imgFile = req.files.img,
-    crypto = require('crypto'),
-    fileMd5 = crypto.createHash('md5').update(imgFile.data).digest("hex");
+      crypto = require('crypto'),
+      fileMd5 = crypto.createHash('md5').update(imgFile.data).digest("hex");
     fileExt = path.extname(imgFile.name).toLowerCase(),
-    allowExts = ['.jpg','.png','.gif','.webp','.bmp','.svg'];
+      allowExts = ['.jpg','.png','.gif','.webp','.bmp','.svg'];
 
     if(!(allowExts.indexOf(fileExt)>=0)){
       res.end(JSON.stringify({error:'bad format, plase use:'+allowExts.join(',')}));
@@ -309,7 +351,7 @@ app.post('/upload', function(req, res) {
     });
   });
 
-  
+
 });
 
 //启动服务
