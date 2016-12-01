@@ -19,33 +19,19 @@ app.factory('TransistionTypes',['StyleCalc','$filter',function(StyleCalc,$filter
         var initTransform = StyleCalc.transform(item.transition);
         var transition = getTransistionStyles(item.transition);
         var initStyle = $filter('stylefilter')({opacity:item.transition.opacity});
-        var targetStyle = $filter('stylefilter')(item.style);
-        initStyle = angular.extend(targetStyle,initStyle,initTransform);
+        initStyle = angular.extend({},initStyle,initTransform,transition);
         
-        var pageTransform = StyleCalc.transform(item.style);
-        if(angular.equals({}, pageTransform)){
-          pageTransform = {
-              'transform':'translate(0,0) rotate(0deg) scale(1)',
-              '-webkit-transform':'translate(0,0) rotate(0deg) scale(1)'
-            };
-        }
-        var addition = {};
-        if(typeof item.transition.opacity !== 'undefined' && !item.style.opacity){
-          addition.opacity = 1;
-        }
-        for(var i in targetStyle){
-          if(targetStyle[i]!==initStyle[i]){
-            addition[i] = targetStyle[i];
-          }
-        }
-        var pageStyle = angular.extend(addition,pageTransform,transition);
+        var pageStyle = {
+          'transform':'translate(0,0) rotate(0deg) scale(1)',
+          '-webkit-transform':'translate(0,0) rotate(0deg) scale(1)',
+          opacity: 1
+        };
         
-        return StyleCalc.style2css(initStyle,'.e'+item.id)+"\n"
-          +StyleCalc.style2css(pageStyle,'.p'+pageId+' .e'+item.id);
+        return StyleCalc.style2css(initStyle,'.t'+item.id)+"\n"
+          +StyleCalc.style2css(pageStyle,'.p'+pageId+' .t'+item.id);
         
       }else{
-        var pageStyle = $filter('stylefilter')(item.style);
-        return StyleCalc.style2css(pageStyle,' .e'+item.id);
+        return '';
       }
     }
   };

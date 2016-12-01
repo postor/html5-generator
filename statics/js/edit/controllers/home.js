@@ -182,9 +182,9 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         angular.forEach(page.items, function(itemId) {
           usedItems.push(itemId);
           var item = $scope.items[itemId]
-          var itemHtml = '<div class="e'+item.id
+          var itemHtml = '<div class="f t'+item.id+'"><div class="e e'+item.id
             +(item.animate.enabled?' '+$filter('animateClassName')(item):'')
-            +'">'+$filter('h5content')(item,true)+'</div>';
+            +'">'+$filter('h5content')(item,true)+'</div></div>';
           this.push(itemHtml);
         },itemHtmls);        
         this.push(itemHtmls.join(''));
@@ -196,6 +196,13 @@ app.controller('homeCtrl',['$scope','idgen','$filter','$http','AnimateTypes','Tr
         this.push(StyleCalc.style2css(obj,'.page'+(pageIndex+1)));
         
         //css for items
+        angular.forEach(page.items, function(itemId){
+          var obj = $filter('stylefilter')($scope.items[itemId].style,'image');
+          var c = StyleCalc.style2css(obj,'.e'+itemId)
+          console.log(c);
+          this.push(c);
+        },pageCss);
+        //css for item transition
         angular.forEach(page.items, function(itemId){
           var c = TransistionTypes.getCssContent($scope.items[itemId],pageIndex);
           console.log(c);

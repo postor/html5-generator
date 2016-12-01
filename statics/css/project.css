@@ -49,8 +49,18 @@ ul, li {
 
 .slide > * {
 	position: absolute;
-	justify-content:center;
-  display:flex;
-  align-items: center;
   background-repeat: no-repeat;
+}
+
+.f {
+  width: 100%;
+  height: 100%;
+  position: absolute; 
+}
+
+.e {
+  position: absolute; 
+	justify-content: center;
+  display: flex;
+  align-items: center;
 }

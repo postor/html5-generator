@@ -38,16 +38,17 @@
         <div class="phone-box" ng-class="'p'+currentPageIndex" ng-style="resolution.devices[info.currentResolution]">
         
           <div class="phone-screen" ng-style="currentPage.style|stylefilter:'image'">
-            <h5-element ng-repeat="itemId in currentPage.items" 
-              item="items[itemId]" 
-              set-item="setCurrentItem(itemId)"
-              item-id="{{itemId}}"
-              resolution="resolution.devices[info.currentResolution]" 
-              ng-style="items[itemId].style|stylefilter:items[itemId].type"
-              ng-class="items[itemId]|animateClassName"
-              >
-            </h5-element>
-            
+            <div class="f" ng-repeat="itemId in currentPage.items" ng-class="'t'+itemId">
+              <h5-element 
+                item="items[itemId]" 
+                set-item="setCurrentItem(itemId)"
+                item-id="{{itemId}}"
+                resolution="resolution.devices[info.currentResolution]" 
+                ng-style="items[itemId].style|stylefilter:items[itemId].type"
+                ng-class="items[itemId]|animateClassName"
+                >
+              </h5-element>
+            </div>
           </div>
         </div>
       </div>

@@ -138,7 +138,7 @@ app.get('/user/:user',function(req, res, next){
 app.get('/project/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
   .then(function(result){
-    console.log(result)
+    
     result.pageCount = result.pageCount||1;
     res.render('project',{project:result});
   },function(err){
@@ -263,6 +263,39 @@ app.post('/json/:project',function(req, res){
     res.end(JSON.stringify({error:0,data:result}, null, 2));
   },function(err){
     res.end(JSON.stringify({error:err}, null, 2));
+  });
+});
+
+//下载页
+app.get('/download/:project',function(req, res){
+  libProject.loadProject(req.params.project[0])
+  .then(function(result){    
+    result.pageCount = result.pageCount||1;
+    res.render('project',{project:result},function(err,viewHtml){
+      var archiver = require('archiver');
+      var archive = archiver.create('zip', {});
+      res.attachment('code.zip');
+
+      archive.pipe(res)
+      viewHtml.replace(/(href)|(src)="(.*?)"/g,function(match){
+        console.log(match)
+        return match
+      })
+
+      archive.append(string2stream(viewHtml), { name: 'index.html' });
+      archive.finalize();
+    });
+    function string2stream(str){
+      var stream = new require('stream').Readable()
+      stream._read = function(){}
+      stream.push(str)
+      stream.push(null)
+      return stream
+    }
+  },function(err){
+    res.render('error',{
+      errormessage:'error:'+err
+    });
   });
 });
 

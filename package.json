@@ -4,6 +4,7 @@
   "description": "a short cut for mobile web",
   "main": "app.js",
   "dependencies": {
+    "archiver": "^1.2.0",
     "body-parser": "^1.12.2",
     "bson": "^0.3.1",
     "camo": "^0.12.3",
