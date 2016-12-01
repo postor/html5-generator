@@ -269,34 +269,42 @@ app.post('/json/:project',function(req, res){
 //下载页
 app.get('/download/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
-  .then(function(result){    
-    result.pageCount = result.pageCount||1;
-    res.render('project',{project:result},function(err,viewHtml){
-      var archiver = require('archiver');
-      var archive = archiver.create('zip', {});
-      res.attachment('code.zip');
+    .then(function(result){
+      result.pageCount = result.pageCount||1;
+      res.render('project',{project:result},function(err,viewHtml){
+        var archiver = require('archiver');
+        var archive = archiver.create('zip', {});
+        res.attachment('source.zip');
 
-      archive.pipe(res)
-      viewHtml.replace(/(href)|(src)="(.*?)"/g,function(match){
-        console.log(match)
-        return match
-      })
+        archive.pipe(res)
+        //js\css
+        viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
+          var filePath = match.substring(match.indexOf('"')+2,match.lastIndexOf('"'))
+          archive.file(filePath,{name:filePath})
+          return match.replace('/'+filePath,filePath)
+        })
+        //pictures
+        viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
+          var filePath = match.substr(5,match.length-6)
+          archive.file(filePath,{name:filePath})
+          return match.replace('/'+filePath,filePath)
+        })
 
-      archive.append(string2stream(viewHtml), { name: 'index.html' });
-      archive.finalize();
+        archive.append(string2stream(viewHtml), { name: 'index.html' });
+        archive.finalize();
+      });
+      function string2stream(str){
+        var stream = new require('stream').Readable()
+        stream._read = function(){}
+        stream.push(str)
+        stream.push(null)
+        return stream
+      }
+    },function(err){
+      res.render('error',{
+        errormessage:'error:'+err
+      });
     });
-    function string2stream(str){
-      var stream = new require('stream').Readable()
-      stream._read = function(){}
-      stream.push(str)
-      stream.push(null)
-      return stream
-    }
-  },function(err){
-    res.render('error',{
-      errormessage:'error:'+err
-    });
-  });
 });
 
 /**

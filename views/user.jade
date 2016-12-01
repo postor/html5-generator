@@ -32,6 +32,7 @@ html(lang="en")
               th ID
               th 标题
               th.text-right 操作
+              th 下载
           tbody
             each project in projects
               tr
@@ -42,6 +43,8 @@ html(lang="en")
                   a.btn.icon-edit(href="/edit/"+project._id) 编辑
                   a.btn.icon-eye-open(href="/project/"+project._id,target="_blank") 查看
                   a.btn.icon-trash(href="/delete/"+project._id) 删除
+                td
+                  a.btn.icon-download(href='/download/'+project._id)
 
 
                 
