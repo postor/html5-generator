@@ -35,9 +35,16 @@ app.use(function(req, res, next){
   next();
 });
 
+function checkLoginGoUserPage(req,res,next){
+  if(req.user){
+    res.redirect('/user/' + req.user);
+  }else{
+    next()
+  }
+}
 
 //登陆
-app.get('/login',function(req, res){
+app.get('/login',checkLoginGoUserPage,function(req, res){
     res.render('login');
 });
 app.post('/login',function(req, res){
@@ -50,9 +57,14 @@ app.post('/login',function(req, res){
     });
 });
 
+app.get('/logout',function(req, res){
+  libUser.logOut(res)
+  res.render('index');
+});
+
 
 //注册
-app.get('/regist',function(req, res){
+app.get('/regist',checkLoginGoUserPage,function(req, res){
   res.render('regist');
 });
 app.post('/regist',function(req, res){
@@ -67,8 +79,8 @@ app.post('/regist',function(req, res){
 });
 
 //首页
-app.get('/',function(req, res, next){  
-  console.log(':home:');
+app.get('/',checkLoginGoUserPage,function(req, res, next){  
+  
     res.render('index');
 });
 
@@ -103,7 +115,7 @@ app.param(function(name, fn){
   }
 });
 
-app.param('user', /^[a-zA-Z\._@-]+$/);
+app.param('user', /^[0-9a-zA-Z\._@-]+$/);
 app.param('project', /^[0-9a-zA-Z]+$/);
 
 //用户页

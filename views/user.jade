@@ -18,6 +18,8 @@ html(lang="en")
     .container
       .page-header.text-center 
         h1.lead='欢迎回来， '+user
+          .small
+            a(href="/logout") 登出
         - if (errormessage)
           p=errormessage
 
