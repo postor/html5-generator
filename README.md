@@ -34,5 +34,5 @@
 
 ## 效果 | check it out ##
 - 测试地址 | test url：[http://75.75.242.55/](http://75.75.242.55/)
-- 作品示例 | example page result：[http://75.75.242.55/project/568c8b72c452f8f6444508c7](http://75.75.242.55/project/568c8b72c452f8f6444508c7)
+- 作品示例 | example page result：[http://75.75.242.55/project/kgHJD6mrNMK1sqns](http://75.75.242.55/project/kgHJD6mrNMK1sqns)
 - 截图 | editor screenshot ：[https://github.com/postor/h5generator/blob/master/screenshot.png](https://github.com/postor/h5generator/blob/master/screenshot.png)
