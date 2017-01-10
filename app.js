@@ -291,6 +291,9 @@ app.get('/download/:project',function(req, res){
         archive.pipe(res)
         //js\css
         viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
+          if(match.startsWith('http')||match.startsWith('//')){
+            return match
+          }
           var filePath = match.substring(match.indexOf('"')+2,match.lastIndexOf('"'))
           archive.file(filePath,{name:filePath})
           return match.replace('/'+filePath,filePath)
