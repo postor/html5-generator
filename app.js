@@ -306,7 +306,7 @@ app.get('/download/:project',function(req, res){
             }
             try{
               var filePath = linkContent.substr(1)
-              if(!fileDic[filePath]){
+              if(!fileDic[filePath] && filePath){
                 archive.file(filePath,{name:filePath})
                 fileDic[filePath] = true
               }
@@ -318,7 +318,7 @@ app.get('/download/:project',function(req, res){
           //pictures
           viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
             var filePath = match.substr(5,match.length-6)            
-            if(!fileDic[filePath]){
+            if(!fileDic[filePath] && filePath){
                 archive.file(filePath,{name:filePath})
                 fileDic[filePath] = true
               }

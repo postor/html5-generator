@@ -22,8 +22,10 @@
         return types.px(i1,v);
       },
       url:function(i,v){
-        var rtn = {};
-        rtn[i]='url('+v+')';
+        if(v){
+          var rtn = {};
+          rtn[i]='url('+v+')';
+        }
         return rtn;
       },
       px:function(i,v){
