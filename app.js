@@ -296,7 +296,7 @@ app.get('/download/:project',function(req, res){
           var archiver = require('archiver');
           var archive = archiver.create('zip', {});
           res.attachment('source.zip');
-
+          var fileDic = {}
           archive.pipe(res)
           //js\css
           viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
@@ -306,7 +306,10 @@ app.get('/download/:project',function(req, res){
             }
             try{
               var filePath = linkContent.substr(1)
-              archive.file(filePath,{name:filePath})
+              if(!fileDic[filePath]){
+                archive.file(filePath,{name:filePath})
+                fileDic[filePath] = true
+              }
               return match.replace(linkContent,filePath)
             }catch(e){
               return match
@@ -314,8 +317,11 @@ app.get('/download/:project',function(req, res){
           })
           //pictures
           viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
-            var filePath = match.substr(5,match.length-6)
-            archive.file(filePath,{name:filePath})
+            var filePath = match.substr(5,match.length-6)            
+            if(!fileDic[filePath]){
+                archive.file(filePath,{name:filePath})
+                fileDic[filePath] = true
+              }
             return match.replace('/'+filePath,filePath)
           })
 
