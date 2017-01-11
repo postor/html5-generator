@@ -282,37 +282,48 @@ app.post('/json/:project',function(req, res){
 app.get('/download/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
     .then(function(result){
-      result.pageCount = result.pageCount||1;
-      res.render('project',{project:result},function(err,viewHtml){
-        var archiver = require('archiver');
-        var archive = archiver.create('zip', {});
-        res.attachment('source.zip');
-
-        archive.pipe(res)
-        //js\css
-        viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
-          var linkContent = match.substring(match.indexOf('"')+1,match.lastIndexOf('"'))
-          if(linkContent.startsWith('http')||linkContent.startsWith('//')){
-            return match
+      return new Promise((resolve,reject)=>{
+        result.pageCount = result.pageCount||1;
+        res.render('project',{project:result},function(err,viewHtml){
+          if(err){
+            reject(err)
+            return
           }
-          try{
-            var filePath = linkContent.substr(1)
+          if(!viewHtml){
+            reject('render fail')
+            return
+          }
+          var archiver = require('archiver');
+          var archive = archiver.create('zip', {});
+          res.attachment('source.zip');
+
+          archive.pipe(res)
+          //js\css
+          viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
+            var linkContent = match.substring(match.indexOf('"')+1,match.lastIndexOf('"'))
+            if(linkContent.startsWith('http')||linkContent.startsWith('//')){
+              return match
+            }
+            try{
+              var filePath = linkContent.substr(1)
+              archive.file(filePath,{name:filePath})
+              return match.replace(linkContent,filePath)
+            }catch(e){
+              return match
+            }
+          })
+          //pictures
+          viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
+            var filePath = match.substr(5,match.length-6)
             archive.file(filePath,{name:filePath})
-            return match.replace(linkContent,filePath)
-          }catch(e){
-            return match
-          }
-        })
-        //pictures
-        viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
-          var filePath = match.substr(5,match.length-6)
-          archive.file(filePath,{name:filePath})
-          return match.replace('/'+filePath,filePath)
-        })
+            return match.replace('/'+filePath,filePath)
+          })
 
-        archive.append(string2stream(viewHtml), { name: 'index.html' });
-        archive.finalize();
-      });
+          archive.append(string2stream(viewHtml), { name: 'index.html' });
+          archive.finalize();
+        });
+      })
+      
       function string2stream(str){
         var stream = new require('stream').Readable()
         stream._read = function(){}
