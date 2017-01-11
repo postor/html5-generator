@@ -321,6 +321,7 @@ app.get('/download/:project',function(req, res){
 
           archive.append(string2stream(viewHtml), { name: 'index.html' });
           archive.finalize();
+          resolve(true)
         });
       })
       
@@ -331,7 +332,8 @@ app.get('/download/:project',function(req, res){
         stream.push(null)
         return stream
       }
-    },function(err){
+    })
+    .then(()=>{},(err)=>{
       res.render('error',{
         errormessage:'error:'+err
       });
