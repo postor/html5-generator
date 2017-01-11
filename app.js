@@ -291,12 +291,17 @@ app.get('/download/:project',function(req, res){
         archive.pipe(res)
         //js\css
         viewHtml = viewHtml.replace(/(href|src)="(.*?)"/g,function(match){
-          if(match.startsWith('http')||match.startsWith('//')){
+          var linkContent = match.substring(match.indexOf('"')+1,match.lastIndexOf('"'))
+          if(linkContent.startsWith('http')||linkContent.startsWith('//')){
             return match
           }
-          var filePath = match.substring(match.indexOf('"')+2,match.lastIndexOf('"'))
-          archive.file(filePath,{name:filePath})
-          return match.replace('/'+filePath,filePath)
+          try{
+            var filePath = linkContent.substr(1)
+            archive.file(filePath,{name:filePath})
+            return match.replace(linkContent,filePath)
+          }catch(e){
+            return match
+          }
         })
         //pictures
         viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
