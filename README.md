@@ -33,7 +33,7 @@
 - 元素持续动画 | animation for infinite loop
 
 ## 效果 | check it out ##
-- 测试地址 | test url：[http://75.75.242.55/](http://75.75.242.55/)
-- 作品示例 | example page result：[http://75.75.242.55/project/kgHJD6mrNMK1sqns](http://75.75.242.55/project/kgHJD6mrNMK1sqns)
+- 测试地址 | test url：[http://h5.i18ntech.com/](http://h5.i18ntech.com/)
+- 作品示例 | example page result：[http://h5.i18ntech.com/project/kgHJD6mrNMK1sqns](http://h5.i18ntech.com/project/kgHJD6mrNMK1sqns)
 - 截图 | editor screenshot ：[https://github.com/postor/h5generator/blob/master/screenshot.png](https://github.com/postor/h5generator/blob/master/screenshot.png)
 - 打包下载源码结构：https://github.com/postor/postor.github.io/tree/master/html5-generator/download-source1
