@@ -4,7 +4,7 @@
 ## 使用方法 | Usage ##
 直接打开[http://h5.i18ntech.com/](http://h5.i18ntech.com/)使用，或搭建自己的服务 | open [http://h5.i18ntech.com/](http://h5.i18ntech.com/) or checkout code and build your own
 
-提前安装 | Prerequisites：[nodejs](http://nodejs.org)，[mongodb](http://www.mongodb.org/)，git 
+提前安装 | Prerequisites：[nodejs](http://nodejs.org)，[mongodb](http://www.mongodb.org/)可选（也可用nedb代替），git 
 
 1. 下载代码 | check out code
 
