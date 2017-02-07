@@ -2,7 +2,7 @@
 一个快速制作移动宣传页面的工具 | a tool for making mobile slide pages with animations
 
 ## 使用方法 | Usage ##
-直接打开[http://75.75.242.55/](http://75.75.242.55/)使用，或搭建自己的服务 | open [http://75.75.242.55/](http://75.75.242.55/) or checkout code and build your own
+直接打开[http://h5.i18ntech.com/](http://h5.i18ntech.com/)使用，或搭建自己的服务 | open [http://h5.i18ntech.com/](http://h5.i18ntech.com/) or checkout code and build your own
 
 提前安装 | Prerequisites：[nodejs](http://nodejs.org)，[mongodb](http://www.mongodb.org/)，git 
 
