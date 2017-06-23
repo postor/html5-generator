@@ -3,40 +3,45 @@ html(lang="en")
   head
     meta(charset="utf-8")
     meta(name="viewport",content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0")
-    title= pageTitle
-    
-    link(rel="stylesheet",type="text/css",href="/statics/css/base.css" )
-    - var i = 0
-    while i++ < links.length
-      link(rel="stylesheet",type="text/css",href=links[i] )
-    style.
-      #scroller{
-        height: #{pages.length*100}%
-      }
-      .slide{
-        height: #{Math.round(100000/pages.length)/1000}%
-      }
-  body(onload="loaded()")
-    #wrapper
-      #scroller
-        - var i = 0
-        while i++ < pages.length
-          .slide
-            .title='第'+i+'屏'  
+    title= pageTitle    
 
-    script(src="/statics/js/iscroll.js")
-    script.
-      var myScroll;
-      function loaded () {
-        myScroll = new IScroll('#wrapper', {
-          scrollX: false,
-          scrollY: true,
-          momentum: false,
-          snap: true,
-          snapSpeed: 400,
-          keyBindings: true
-        });
-      }
-      document.addEventListener('touchmove', function (e) { 
-        e.preventDefault(); 
-      }, false);
+    link(rel="stylesheet",type="text/css",href="/statics/css/bootstrap.min.css" )
+    link(rel="stylesheet",type="text/css",href="/statics/css/font-awesome.min.css" )
+
+  body
+    nav.navbar.navbar-fixed-top
+      .container
+        ul.nav.navbar-nav
+          li
+            a(href='/') 首页
+
+    .container
+      .page-header.text-center 
+        h1.lead='公共项目'
+
+      if(projects && projects.length)
+        .row
+          each project in projects
+            .col-sm-4
+              iframe(style='width:100%;height:720px',src='/project/'+project._id)              
+              a.btn.glyphicon.glyphicon-duplicate(href="/edit?template="+project._id) 复制
+
+      nav(aria-label='Page navigation')
+        ul.pagination
+          li
+            a(href='/view?page=0', aria-label='First')
+              span(aria-hidden='true') |〈
+          if(page>0)
+            li
+              a(href='/view?page='+(page-1), aria-label='Previous')
+                span(aria-hidden='true') «
+          li
+            a(href='#')=(page+1)
+          
+          if(page<pageCount-1)
+            li
+              a(href='/view?page='+(page+1), aria-label='Next')
+                span(aria-hidden='true') »
+          li
+            a(href='/view?page='+(pageCount-1), aria-label='Last')
+              span(aria-hidden='true') 〉|

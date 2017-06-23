@@ -26,6 +26,7 @@ html(lang="en")
       p.text-right
         span='共有'+projects.length+'个项目，'
         a.btn.btn-primary(href="/edit") 创建新项目
+        a.btn.btn-primary(href="/view",style='margin-left:15px') 查看公共项目
 
       if(projects && projects.length)
         table.table.table-striped.projects

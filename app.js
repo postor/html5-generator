@@ -280,6 +280,28 @@ app.post('/json/:project',function(req, res){
   });
 });
 
+//所有项目
+app.get('/view',function(req, res){
+  var page = parseInt(req.query.page)|| 0
+  var limit = parseInt(req.query.pageSize)||3
+  var skip = page*limit
+
+  libProject.getProjects(limit,skip)
+  .then((arr)=>{
+    var projects = arr[0]
+    var total = arr[1]
+    
+    var pageCount = parseInt(total/limit)
+    total%limit && pageCount++
+    res.render('view',{
+      user:req.params.user,
+      projects,
+      page,
+      pageCount
+    })
+  })
+});
+
 //下载页
 app.get('/download/:project',function(req, res){
   libProject.loadProject(req.params.project[0])
@@ -395,5 +417,11 @@ app.post('/upload', function(req, res) {
 });
 
 //启动服务
-app.listen(config.http.port);
-console.log('service started at port:'+config.http.port);
+app.listen(config.http.port,(err)=>{
+  if(err){
+    console.log(err)
+    throw err
+  }else{
+    console.log('service started at port:'+config.http.port);
+  }
+});
