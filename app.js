@@ -169,6 +169,7 @@ app.get('/edit',function(req, res){
     .then(function(result){
       res.redirect('/edit/' + result._id);
     },function(err){
+      console.log(err)
       res.render('error',{
             errormessage:'db error, please try again',
             linkTitle:'try again!',

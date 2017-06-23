@@ -42,9 +42,10 @@ html(lang="en")
                 td
                   a(href="/edit/"+project._id)=project.title
                 td.text-right
-                  a.btn.icon-edit(href="/edit/"+project._id) 编辑
-                  a.btn.icon-eye-open(href="/project/"+project._id,target="_blank") 查看
-                  a.btn.icon-trash(href="/delete/"+project._id) 删除
+                  a.btn.glyphicon.glyphicon-edit(href="/edit/"+project._id) 编辑
+                  a.btn.glyphicon.glyphicon-duplicate(href="/edit?template="+project._id) 复制
+                  a.btn.glyphicon.glyphicon-eye-open(href="/project/"+project._id,target="_blank") 查看
+                  a.btn.glyphicon.glyphicon-trash(href="/delete/"+project._id) 删除
                 td
                   a.btn.icon-download(href='/download/'+project._id)
 
