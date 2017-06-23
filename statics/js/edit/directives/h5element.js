@@ -2,7 +2,7 @@
   app.directive('h5Element',function(){
     return {
       restrict: 'E',
-      template:'<span ng-bind-html="item|h5content"></span><div class="drag"></div>',
+      template:'<span ng-hide="isControl()" ng-bind-html="item|h5content"></span><div class="drag" ng-show="isControl()"></div>',
       controller: function($scope, $element){
         //绑定
         $scope.intItemId = parseInt($scope.itemId);
@@ -11,6 +11,8 @@
           $scope.$apply();
         });
         
+        if(!$scope.isControl()) return
+
         //拖拽 和 缩放
         var $resize = $element.find('.drag');        
         var flags = {drag:false,resize:false,mousedown:false};
@@ -34,7 +36,6 @@
         var last_style = {};
         $element.on('dragstart',function(e){
           flags.drag = !flags.resize;
-          console.log(flags);
           e.originalEvent.dataTransfer.setDragImage(document.createElement('span'), 0, 0);
           
           last_position = {
@@ -81,7 +82,8 @@
         setItem:'&',
         itemId:'@',
         item:'=',
-        resolution:'&'
+        resolution:'&',
+        isControl:'&'
       }
     };
   });
