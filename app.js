@@ -285,6 +285,8 @@ app.get('/view',function(req, res){
   var page = parseInt(req.query.page)|| 0
   var limit = parseInt(req.query.pageSize)||3
   var skip = page*limit
+  var baseUrl =  req.protocol + '://' + req.get('host') 
+  var QRCode = require('qrcode')
 
   libProject.getProjects(limit,skip)
   .then((arr)=>{
@@ -293,13 +295,31 @@ app.get('/view',function(req, res){
     
     var pageCount = parseInt(total/limit)
     total%limit && pageCount++
-    res.render('view',{
-      user:req.params.user,
-      projects,
-      page,
-      pageCount
-    })
+
+    Promise.all(projects.map((x)=>getQrImg(x._id)))
+    .then((qrcodes)=>{
+      res.render('view',{
+        user:req.params.user,
+        projects,
+        qrcodes,
+        page,
+        pageCount
+      })
+    })    
   })
+
+  function getQrImg(projectId){
+    var url = baseUrl+'/project/'+projectId
+    return new Promise((resolve,reject)=>{
+      QRCode.toDataURL(url, function (err, datUri) {
+        if(err){
+          reject(err)
+        }else{
+          resolve(datUri)
+        }
+      })
+    })
+  }
 });
 
 //下载页

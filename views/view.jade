@@ -21,11 +21,12 @@ html(lang="en")
 
       if(projects && projects.length)
         .row
-          each project in projects
+          each project,index in projects
             .col-sm-4
               iframe(style='width:100%;height:720px',src='/project/'+project._id)       
-              p=project.title+' by '+project.email       
-              a.btn.glyphicon.glyphicon-duplicate(href="/edit?template="+project._id) 复制
+              p=project.title+' by '+project.email
+              img(src=qrcodes[index])       
+              a.btn.glyphicon.glyphicon-duplicate(href="/edit?template="+project._id) 基于此模板编辑
 
       nav(aria-label='Page navigation')
         ul.pagination
