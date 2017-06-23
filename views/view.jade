@@ -23,7 +23,8 @@ html(lang="en")
         .row
           each project in projects
             .col-sm-4
-              iframe(style='width:100%;height:720px',src='/project/'+project._id)              
+              iframe(style='width:100%;height:720px',src='/project/'+project._id)       
+              p=project.title+' by '+project.email       
               a.btn.glyphicon.glyphicon-duplicate(href="/edit?template="+project._id) 复制
 
       nav(aria-label='Page navigation')
