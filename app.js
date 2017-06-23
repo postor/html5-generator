@@ -1,3 +1,4 @@
+var fs = require('fs')
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -319,7 +320,7 @@ app.get('/download/:project',function(req, res){
           //pictures
           viewHtml = viewHtml.replace(/url\((.*?)\)/g,function(match){
             var filePath = match.substr(5,match.length-6)            
-            if(!fileDic[filePath] && filePath){
+            if(!fileDic[filePath] && filePath && fs.existsSync(filePath)){
                 archive.file(filePath,{name:filePath})
                 fileDic[filePath] = true
               }
