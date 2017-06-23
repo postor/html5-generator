@@ -31,6 +31,7 @@
 - 编辑页面、元素 | edit page/element
 - 元素进场效果 | animation for come in
 - 元素持续动画 | animation for infinite loop
+- 支持基于模板修改 | create base on another
 
 ## 效果 | check it out ##
 - 测试地址 | test url：[http://h5.i18ntech.com/](http://h5.i18ntech.com/)
