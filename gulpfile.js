@@ -28,7 +28,7 @@ gulp.task('js-min', function() {
 gulp.task('js-concat',['js-min'], function() {
     var concat = require('gulp-concat');
     return gulp.src([
-        './statics/bower_components/zepto/zepto.min.js',
+        './statics/bower_components/jquery/dist/jquery.min.js',
         './statics/bower_components/iscroll/build/iscroll.min.js',
         './statics/js/view.min.js'
     ])
