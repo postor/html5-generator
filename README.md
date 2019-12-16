@@ -34,10 +34,13 @@
 
 ## 效果 | check it out ##
 
-1. build a watch
 
-[![](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)](https://youtu.be/xEoaCEzmRMA)
 
-2. add page, element and script
+[![1. build a watch](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)](https://youtu.be/xEoaCEzmRMA)
 
-[![](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)](https://youtu.be/0rn-T3izhlg)
+https://youtu.be/xEoaCEzmRMA
+
+
+[![2. add page, element and script](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)](https://youtu.be/0rn-T3izhlg)
+
+https://youtu.be/0rn-T3izhlg
