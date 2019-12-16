@@ -38,9 +38,9 @@
 
 ![1. build a watch](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)
 
-https://youtu.be/xEoaCEzmRMA
+1. build a watch https://youtu.be/xEoaCEzmRMA
 
 
 ![2. add page, element and script](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)
 
-https://youtu.be/0rn-T3izhlg
+2. add page, element and script https://youtu.be/0rn-T3izhlg
