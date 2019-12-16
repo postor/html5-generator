@@ -33,4 +33,11 @@
 - 支持基于模板修改 | create base on another
 
 ## 效果 | check it out ##
-- https://www.youtube.com/watch?v=xEoaCEzmRMA&list=PLM1v95K5B1ntVsYvNJIxgRPppngrO_X4s
+
+1. build a watch
+
+[![](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)](https://youtu.be/xEoaCEzmRMA)
+
+2. add page, element and script
+
+[![](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)](https://youtu.be/0rn-T3izhlg)
