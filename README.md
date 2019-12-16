@@ -36,9 +36,9 @@
 
 
 
-![1. build a watch](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)
+![1. build a animating clock](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)
 
-1. build a watch https://youtu.be/xEoaCEzmRMA
+1. build a animating clock https://youtu.be/xEoaCEzmRMA
 
 
 ![2. add page, element and script](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)
