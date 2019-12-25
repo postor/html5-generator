@@ -38,9 +38,9 @@
 
 ![1. build a animating clock](https://img.youtube.com/vi/xEoaCEzmRMA/0.jpg)
 
-1. build a animating clock https://youtu.be/xEoaCEzmRMA
+1. build a animating clock https://www.youtube.com/watch?v=xEoaCEzmRMA&list=PLM1v95K5B1ntVsYvNJIxgRPppngrO_X4s 
 
 
 ![2. add page, element and script](https://img.youtube.com/vi/0rn-T3izhlg/0.jpg)
 
-2. add page, element and script https://youtu.be/0rn-T3izhlg
+2. add page, element and script https://www.youtube.com/watch?v=0rn-T3izhlg&list=PLM1v95K5B1ntVsYvNJIxgRPppngrO_X4s
