@@ -11,7 +11,7 @@
     "cookie-parser": "^1.4.4",
     "cookieparser": "^0.1.0",
     "express": "^4.17.1",
-    "express-fileupload": "0.1.2",
+    "express-fileupload": "1.1.9",
     "gulp": "^4.0.2",
     "gulp-ruby-sass": "^4.0.0",
     "jade": "^1.11.0",
